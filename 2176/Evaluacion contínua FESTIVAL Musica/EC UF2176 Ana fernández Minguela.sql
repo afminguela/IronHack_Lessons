@@ -10,30 +10,30 @@ SELECT * FROM Asistentes WHERE Edad <= 30 ;
 
 -- 3. Bandas que han tocado en Madrid "Muestra el nombre de las bandas que han tocado en Madrid."
 
-SELECT Nombre as Banda, Conciertos.Ciudad as Ciudad, Conciertos.Fecha as Fecha
-FROM Bandas  
-Inner Join Conciertos ON Bandas.ID_banda = Conciertos.ID_banda
+SELECT Nombre as Banda, C.Ciudad as Ciudad, C.Fecha as Fecha
+FROM Bandas B
+Inner Join Conciertos C ON B.ID_banda = C.ID_banda
 Where Ciudad = 'Madrid';
 
 -- 4. Conciertos en una fecha específica "¿Qué conciertos se realizaron el 5 de mayo de 2024?"
 
-SELECT nombre as Banda, Conciertos.Fecha as Fecha, Conciertos.Ciudad as Ciudad
-FROM Bandas  
-Inner Join Conciertos ON Bandas.ID_banda = Conciertos.ID_banda
-WHERE Conciertos.Fecha = '2024-05-05';
+SELECT nombre as Banda, C.Fecha as Fecha, C.Ciudad as Ciudad
+FROM Bandas B
+Inner Join Conciertos C ON B.ID_banda = C.ID_banda
+WHERE C.Fecha = '2024-05-05';
 
 -- 5. Cantidad de entradas vendidas para el concierto en Barcelona"¿Cuántas entradas se han vendido para el concierto en Barcelona?"
 
 SELECT 
-    COUNT(entradas.ID_entrada) AS 'Número entradas vendidas',
-    Conciertos.Ciudad AS Ciudad
+    COUNT(E.ID_entrada) AS 'Número entradas vendidas',
+    C.Ciudad AS Ciudad
 FROM
-    Entradas
+    Entradas E
         INNER JOIN
-    Conciertos ON Conciertos.ID_concierto = Entradas.ID_concierto
+    Conciertos C ON C.ID_concierto = E.ID_concierto
         
 WHERE
-    Conciertos.Ciudad = 'Barcelona';
+    C.Ciudad = 'Barcelona';
 ;
 
 -- 6. Precio promedio de entradas por concierto "¿Cuál fue el precio promedio de las entradas vendidas en el concierto de Tokio?"
