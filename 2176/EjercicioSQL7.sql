@@ -92,6 +92,7 @@ DELIMITER ;
 
 
 -- 6. Control de capacidad de pasajeros en NaveEspacial Si se intenta asignar un número de pasajeros superior a la capacidad de la nave en un viaje, se debe lanzar un error y bloquear la operación.
+
 -- 7. Cálculo automático de la duración del viaje. Al insertar un nuevo registro en Viaje, se debe calcular y asignar automáticamente la duración del viaje en función de la diferencia entre FechaSalida y FechaLlegada.
 -- 8. Actualización automática de la fecha de próximo mantenimiento en NaveEspacial Cada vez que se registre un nuevo mantenimiento en una nave espacial, se debe calcular y actualizar automáticamente la fecha del próximo mantenimiento.
 -- 9. Control de fecha de baja en Hotel;No se permitirá insertar una fecha de baja en un hotel si esa fecha es anterior a la fecha de construcción.
