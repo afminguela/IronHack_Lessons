@@ -18,7 +18,7 @@ USE `Torneo` ;
 -- Table `Torneo`.`DRONES`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Torneo`.`DRONES` (
-  `id_DRON` INT NOT NULL,
+  `id_DRON` INT NOT NULL AUTO_INCREMENT,
   `Marca` VARCHAR(100) NOT NULL,
   `Modelo` VARCHAR(100) NULL,
   `Velocidad _Max` INT NOT NULL,
@@ -31,7 +31,7 @@ ENGINE = InnoDB;
 -- Table `Torneo`.`Pilotos`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Torneo`.`Pilotos` (
-  `id_Piloto` INT NOT NULL,
+  `id_Piloto` INT NOT NULL AUTO_INCREMENT,
   `Nombre` VARCHAR(100) NOT NULL,
   `Edad` INT NULL,
   `Nivel` ENUM("Principiante", "Intermedio", "Avanzado") NOT NULL,
@@ -43,7 +43,7 @@ ENGINE = InnoDB;
 -- Table `Torneo`.`Carreras`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Torneo`.`Carreras` (
-  `id_Carrera` INT NOT NULL,
+  `id_Carrera` INT NOT NULL AUTO_INCREMENT,
   `Fecha` DATETIME NOT NULL,
   `Pista` VARCHAR(100) NULL,
   `Ciudad` VARCHAR(100) NOT NULL,
@@ -55,146 +55,16 @@ ENGINE = InnoDB;
 -- Table `Torneo`.`Resultados`
 -- -----------------------------------------------------
 CREATE TABLE IF NOT EXISTS `Torneo`.`Resultados` (
-  `id_Resultado` INT NOT NULL,
+  `id_Resultado` INT NOT NULL AUTO_INCREMENT,
   `id_Dron` INT NOT NULL,
   `id_Carrera` INT NOT NULL,
   `id_Piloto` INT NOT NULL,
   `Posicion` INT NOT NULL,
   `Problema_tecnico` VARCHAR(200) NULL,
+  `Tiempo`TIME(6) NOT NULL,
   PRIMARY KEY (`id_Resultado`))
 ENGINE = InnoDB;
 
-
--- -----------------------------------------------------
--- Table `Torneo`.`R_Drones`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Torneo`.`R_Drones` (
-  `DRONES_id_DRON` INT NOT NULL,
-  `Resultados_id_Resultado` INT NOT NULL,
-  PRIMARY KEY (`DRONES_id_DRON`, `Resultados_id_Resultado`),
-  INDEX `fk_DRONES_Tiene_Resultados_Resultados1_idx` (`Resultados_id_Resultado` ASC) VISIBLE,
-  INDEX `fk_DRONES_Tiene_Resultados_DRONES_idx` (`DRONES_id_DRON` ASC) VISIBLE,
-  CONSTRAINT `fk_DRONES_Tiene_Resultados_DRONES`
-    FOREIGN KEY (`DRONES_id_DRON`)
-    REFERENCES `Torneo`.`DRONES` (`id_DRON`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_DRONES_Tiene_Resultados_Resultados1`
-    FOREIGN KEY (`Resultados_id_Resultado`)
-    REFERENCES `Torneo`.`Resultados` (`id_Resultado`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Torneo`.`R_Pilotos`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Torneo`.`R_Pilotos` (
-  `Resultados_id_Resultado` INT NOT NULL,
-  `Pilotos_id_Piloto` INT NOT NULL,
-  PRIMARY KEY (`Resultados_id_Resultado`, `Pilotos_id_Piloto`),
-  INDEX `fk_Resultados_Tiene_Pilotos_Pilotos1_idx` (`Pilotos_id_Piloto` ASC) VISIBLE,
-  INDEX `fk_Resultados_Tiene_Pilotos_Resultados1_idx` (`Resultados_id_Resultado` ASC) VISIBLE,
-  CONSTRAINT `fk_Resultados_Tiene_Pilotos_Resultados1`
-    FOREIGN KEY (`Resultados_id_Resultado`)
-    REFERENCES `Torneo`.`Resultados` (`id_Resultado`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Resultados_Tiene_Pilotos_Pilotos1`
-    FOREIGN KEY (`Pilotos_id_Piloto`)
-    REFERENCES `Torneo`.`Pilotos` (`id_Piloto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Torneo`.`R_Carreras`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Torneo`.`R_Carreras` (
-  `Resultados_id_Resultado` INT NOT NULL,
-  `Carreras_id_Carrera` INT NOT NULL,
-  PRIMARY KEY (`Resultados_id_Resultado`, `Carreras_id_Carrera`),
-  INDEX `fk_Resultados_Tiene_Carreras_Carreras1_idx` (`Carreras_id_Carrera` ASC) VISIBLE,
-  INDEX `fk_Resultados_Tiene_Carreras_Resultados1_idx` (`Resultados_id_Resultado` ASC) VISIBLE,
-  CONSTRAINT `fk_Resultados_Tiene_Carreras_Resultados1`
-    FOREIGN KEY (`Resultados_id_Resultado`)
-    REFERENCES `Torneo`.`Resultados` (`id_Resultado`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Resultados_Tiene_Carreras_Carreras1`
-    FOREIGN KEY (`Carreras_id_Carrera`)
-    REFERENCES `Torneo`.`Carreras` (`id_Carrera`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Torneo`.`Pilotos _en_carreras`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Torneo`.`Pilotos _en_carreras` (
-  `Carreras_id_Carrera` INT NOT NULL,
-  `Pilotos_id_Piloto` INT NOT NULL,
-  PRIMARY KEY (`Carreras_id_Carrera`, `Pilotos_id_Piloto`),
-  INDEX `fk_Carreras_Tiene_Pilotos_Pilotos1_idx` (`Pilotos_id_Piloto` ASC) VISIBLE,
-  INDEX `fk_Carreras_Tiene_Pilotos_Carreras1_idx` (`Carreras_id_Carrera` ASC) VISIBLE,
-  CONSTRAINT `fk_Carreras_Tiene_Pilotos_Carreras1`
-    FOREIGN KEY (`Carreras_id_Carrera`)
-    REFERENCES `Torneo`.`Carreras` (`id_Carrera`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Carreras_Tiene_Pilotos_Pilotos1`
-    FOREIGN KEY (`Pilotos_id_Piloto`)
-    REFERENCES `Torneo`.`Pilotos` (`id_Piloto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Torneo`.`Carreras_Tiene_DRONES`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Torneo`.`Carreras_Tiene_DRONES` (
-  `Carreras_id_Carrera` INT NOT NULL,
-  `DRONES_id_DRON` INT NOT NULL,
-  PRIMARY KEY (`Carreras_id_Carrera`, `DRONES_id_DRON`),
-  INDEX `fk_Carreras_Tiene_DRONES_DRONES1_idx` (`DRONES_id_DRON` ASC) VISIBLE,
-  INDEX `fk_Carreras_Tiene_DRONES_Carreras1_idx` (`Carreras_id_Carrera` ASC) VISIBLE,
-  CONSTRAINT `fk_Carreras_Tiene_DRONES_Carreras1`
-    FOREIGN KEY (`Carreras_id_Carrera`)
-    REFERENCES `Torneo`.`Carreras` (`id_Carrera`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Carreras_Tiene_DRONES_DRONES1`
-    FOREIGN KEY (`DRONES_id_DRON`)
-    REFERENCES `Torneo`.`DRONES` (`id_DRON`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
-
-
--- -----------------------------------------------------
--- Table `Torneo`.`Pilotos_Tiene_DRONES`
--- -----------------------------------------------------
-CREATE TABLE IF NOT EXISTS `Torneo`.`Pilotos_Tiene_DRONES` (
-  `Pilotos_id_Piloto` INT NOT NULL,
-  `DRONES_id_DRON` INT NOT NULL,
-  PRIMARY KEY (`Pilotos_id_Piloto`, `DRONES_id_DRON`),
-  INDEX `fk_Pilotos_Tiene_DRONES_DRONES1_idx` (`DRONES_id_DRON` ASC) VISIBLE,
-  INDEX `fk_Pilotos_Tiene_DRONES_Pilotos1_idx` (`Pilotos_id_Piloto` ASC) VISIBLE,
-  CONSTRAINT `fk_Pilotos_Tiene_DRONES_Pilotos1`
-    FOREIGN KEY (`Pilotos_id_Piloto`)
-    REFERENCES `Torneo`.`Pilotos` (`id_Piloto`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION,
-  CONSTRAINT `fk_Pilotos_Tiene_DRONES_DRONES1`
-    FOREIGN KEY (`DRONES_id_DRON`)
-    REFERENCES `Torneo`.`DRONES` (`id_DRON`)
-    ON DELETE NO ACTION
-    ON UPDATE NO ACTION)
-ENGINE = InnoDB;
 
 
 SET SQL_MODE=@OLD_SQL_MODE;
@@ -229,58 +99,41 @@ INSERT INTO Carreras (id_Carrera, Fecha, Pista, Ciudad) VALUES
 (5, '2023-08-25 13:30:00', 'Montaña', 'Bilbao');
 
 -- Insertar datos en la tabla Resultados
-INSERT INTO Resultados (id_Resultado, id_Dron, id_Carrera, id_Piloto, Posicion, Problema_tecnico) VALUES
-(1, 1, 1, 1, 1, NULL),
-(2, 2, 1, 2, 2, NULL),
-(3, 3, 1, 3, 3, 'Pérdida de señal'),
-(4, 4, 2, 4, 1, NULL),
-(5, 5, 2, 5, 2, 'Batería baja');
+INSERT INTO Resultados (id_Resultado, id_Dron, id_Carrera, id_Piloto, Posicion, Problema_tecnico, tiempo) VALUES
+-- Carrera 1
+(1, 1, 1, 1, 1, NULL, '00:02:15.345'),
+(2, 2, 1, 2, 2, NULL, '00:02:17.892'),
+(3, 3, 1, 3, 3, 'Pérdida de señal', '00:02:25.671'),
+(6, 4, 1, 4, 4, NULL, '00:02:28.123'),
+(7, 5, 1, 5, 5, 'Interferencia de señal', '00:02:35.789'),
 
--- Insertar datos en la tabla R_Drones
-INSERT INTO R_Drones (DRONES_id_DRON, Resultados_id_Resultado) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);
+-- Carrera 2
+(4, 4, 2, 4, 1, NULL, '00:02:10.234'),
+(5, 5, 2, 5, 2, 'Batería baja', '00:02:12.567'),
+(8, 1, 2, 1, 3, NULL, '00:02:14.890'),
+(9, 2, 2, 2, 4, 'Fallo en el control remoto', '00:02:20.123'),
+(10, 3, 2, 3, 5, NULL, '00:02:22.456'),
 
--- Insertar datos en la tabla R_Pilotos
-INSERT INTO R_Pilotos (Resultados_id_Resultado, Pilotos_id_Piloto) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);
+-- Carrera 3
+(11, 2, 3, 1, 1, NULL, '00:02:08.765'),
+(12, 3, 3, 2, 2, NULL, '00:02:10.987'),
+(13, 4, 3, 3, 3, 'Colisión con obstáculo', '00:02:18.543'),
+(14, 5, 3, 4, 4, NULL, '00:02:20.876'),
+(15, 1, 3, 5, 5, 'Problema de estabilización', '00:02:25.432'),
 
--- Insertar datos en la tabla R_Carreras
-INSERT INTO R_Carreras (Resultados_id_Resultado, Carreras_id_Carrera) VALUES
-(1, 1),
-(2, 1),
-(3, 1),
-(4, 2),
-(5, 2);
+-- Carrera 4
+(16, 3, 4, 1, 1, NULL, '00:02:05.678'),
+(17, 4, 4, 2, 2, NULL, '00:02:07.890'),
+(18, 5, 4, 3, 3, NULL, '00:02:09.123'),
+(19, 1, 4, 4, 4, 'Fallo en el motor', '00:02:15.456'),
+(20, 2, 4, 5, 5, NULL, '00:02:18.789'),
 
--- Insertar datos en la tabla Pilotos_en_carreras
-INSERT INTO `Pilotos _en_carreras` (Carreras_id_Carrera, Pilotos_id_Piloto) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 4),
-(2, 5);
+-- Carrera 5
+(21, 5, 5, 1, 1, NULL, '00:02:03.234'),
+(22, 1, 5, 2, 2, 'Problema con la cámara', '00:02:06.567'),
+(23, 2, 5, 3, 3, NULL, '00:02:08.890'),
+(24, 3, 5, 4, 4, NULL, '00:02:11.123'),
+(25, 4, 5, 5, 5, 'Pérdida de GPS', '00:02:16.456')
 
--- Insertar datos en la tabla Carreras_Tiene_DRONES
-INSERT INTO Carreras_Tiene_DRONES (Carreras_id_Carrera, DRONES_id_DRON) VALUES
-(1, 1),
-(1, 2),
-(1, 3),
-(2, 4),
-(2, 5);
 
--- Insertar datos en la tabla Pilotos_Tiene_DRONES
-INSERT INTO Pilotos_Tiene_DRONES (Pilotos_id_Piloto, DRONES_id_DRON) VALUES
-(1, 1),
-(2, 2),
-(3, 3),
-(4, 4),
-(5, 5);
 
