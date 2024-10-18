@@ -5,6 +5,7 @@
 package com.mycompany.ejercicio1;
 
 import java.time.LocalDate;
+import java.util.*;
 
 /**
  *
@@ -12,7 +13,7 @@ import java.time.LocalDate;
  */
 public class Usuario extends Persona {
     private String password;
-    private String Rol;
+    private Rol rol;
     
    
 
@@ -27,12 +28,14 @@ public class Usuario extends Persona {
             boolean activo, 
             boolean esProveedor,
             String password, 
-            String Rol
+            Rol rol
     ) {
         super(idPersona, nombre, email, telefono, esPersonaFisica, 
                 fechaAlta, fechaBaja, activo, esProveedor);
         this.password = password;
-        this.Rol = Rol;
+        this.rol = rol;
+        
+        Inventario.addUsuarios(this);
         
                
     };
@@ -46,20 +49,22 @@ public class Usuario extends Persona {
         return password2 ;
     }    
     
-    public String getRol(){
-        return Rol;
+    public Rol getRol(){
+        return rol;
     }
     
     // setters
     
     public void setPassword(String password){
         String algoritmo = "asf3445ds6644sdf";
-        this.password = algoritmo + password + algoritmo ;
-        System.out.println("Hecho, password nuevo");
+        this.password = algoritmo + password + algoritmo ; 
+        System.out.println("Hecho, se ha cambiado su password con éxito");
     }
     
-    public void setRol(String Rol){
-        this.Rol = Rol;
+    public void setRol(Rol rol){
+        Rol auxiliar = this.getRol();
+        this.rol = rol;
+        System.out.println("Hecho, Rol: "+ auxiliar + " cambiado a "+ this.rol);
     }
         
     
@@ -71,9 +76,9 @@ public class Usuario extends Persona {
         // return true;
       
             if(super.isActivo()){
-               System.out.println("Sesion iniciada");
+               System.out.println("Sesion iniciada, Bienvenido"+ super.getNombre());
             } else { 
-                System.out.println("por favor inicie sesion");
+                System.out.println("Por favor inicie sesion correctamente");
                }
     
     }
@@ -81,22 +86,29 @@ public class Usuario extends Persona {
     
     public boolean cerrarSesion(){
         super.setActivo(false);
-        System.out.println("Sesion Cerrada, Bienvenido " + super.getNombre());
+        System.out.println("Sesion Cerrada, Hasta pronto " + super.getNombre());
         return false;
         
     }
     
-    public Reporte generarReporte(int idReporte){
-    
-        System.out.println(Reporte.idReporte);
+    public void generarReporte(int idReporte){  // exportar a txt. 
+          int auxiliar = idReporte;
+        // constructor de reportes
+        Reporte reporte = new Reporte(auxiliar);
+        System.out.println("El Reporte "+reporte + " ha sido creado.");
+        
     }
     
-    
-    public Rol asignarRol(int IdUsuario, Rol idRol){
-    
-        Usuario.setRol(Rol idRol)
+    public void asignarRol(Usuario usuario, Rol nuevoRol){   // necesario??
+        String nomUsuario = usuario.getNombre();
+        String rolUsuario = nuevoRol.getNombreRol();
+        
+        if (this.rol.getNombreRol().equalsIgnoreCase("admin")){
+        usuario.setRol(nuevoRol);
+        System.out.println("El usuario " + nomUsuario + " ha cambiado del rol "+ rolUsuario + " al rol " + nuevoRol ); 
+        } else {
+            System.out.println("No tienes el nivel necesario para poder hacer esto.");}
     }
-    
     
     }
 

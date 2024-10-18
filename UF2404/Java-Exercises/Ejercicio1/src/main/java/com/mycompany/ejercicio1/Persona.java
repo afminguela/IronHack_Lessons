@@ -23,7 +23,8 @@ public class Persona {
     private boolean esProveedor;
     
 // constructores
-public Persona(){};
+public Persona(int idPersona){
+     this.idPersona = idPersona;};
 
 public Persona(int idPersona,
     String nombre,
@@ -41,7 +42,7 @@ public Persona(int idPersona,
     this.email = email;
     this.telefono = telefono;
     this.esPersonaFisica = esPersonaFisica;
-    this.fechaAlta = fechaAlta;
+    this.fechaAlta = LocalDate.now();
     this.fechaBaja = fechaBaja;
     this.activo = activo;
     this.esProveedor = esProveedor;
@@ -65,7 +66,7 @@ public Persona(int idPersona,
     this.email = email;
     this.telefono = telefono;
     this.esPersonaFisica = false;
-    this.fechaAlta = fechaAlta;
+    this.fechaAlta = LocalDate.now();
     this.fechaBaja = fechaBaja;
     this.activo = activo;
     this.esProveedor = true;
@@ -73,6 +74,14 @@ public Persona(int idPersona,
     System.out.println("Se ha creado un nuevo proveedor con el constructor "
             + "de proveedor. Con nombre "+ this.nombre);
 };
+//private static final Set<Integer> idsUsadosNotificaciones = new HashSet();  Añade una lista tipo SET que no admite duplicados
+    
+    //Constructor:
+
+    //public Notificacion(int idNotificacion ...) throws Exception {  // Es el principio de cualquier constructor, que añade una comprobación para que los ID sean unicos, 
+        //if (idsUsadosNotificaciones.contains(idNotificacion)) {
+       //     throw new Exception("La Notificacion no se pudo crear, ya que el ID " + idNotificacion + " ya está en uso.");
+       // }
 
 // getters y setters
 
@@ -80,11 +89,13 @@ public Persona(int idPersona,
     public int getIdPersona() {
         return idPersona;
     }
+    
 
     public void setIdPersona(int idPersona) {
+        int auxiliar = this.getIdPersona();
         this.idPersona = idPersona;
         
-        System.out.println("Hecho");
+        System.out.println("Hecho, id persona: "+ auxiliar + " cambiado a "+ this.idPersona);
         
         
     }
@@ -94,8 +105,9 @@ public Persona(int idPersona,
     }
 
     public void setNombre(String nombre) {
+        String auxiliar = this.getNombre();
         this.nombre = nombre;
-         System.out.println("Hecho");
+        System.out.println("Hecho, nombre: "+ auxiliar + " cambiado a "+ this.nombre);
     }
 
     public String getEmail() {
@@ -103,8 +115,9 @@ public Persona(int idPersona,
     }
 
     public void setEmail(String email) {
+         String auxiliar = this.getNombre();
         this.email = email;
-         System.out.println("Hecho");
+        System.out.println("Hecho, email: "+ auxiliar + " cambiado a "+ this.email);
     }
 
     public String getTelefono() {
@@ -112,8 +125,9 @@ public Persona(int idPersona,
     }
 
     public void setTelefono(String telefono) {
+         String auxiliar = this.getNombre();
         this.telefono = telefono;
-         System.out.println("Hecho");
+        System.out.println("Hecho, telefono: "+ auxiliar + " cambiado a "+ this.telefono);
     }
 
     public boolean isEsPersonaFisica() {
@@ -122,7 +136,8 @@ public Persona(int idPersona,
 
     public void setEsPersonaFisica(boolean esPersonaFisica) {
         this.esPersonaFisica = esPersonaFisica;
-         System.out.println("Hecho");
+         if(esPersonaFisica){System.out.println("Hecho, efectivamente, Es persona física");}
+         else { System.out.println("Hecho, es persona jurídica");}
     }
 
     public LocalDate getFechaAlta() {
@@ -130,8 +145,9 @@ public Persona(int idPersona,
     }
 
     public void setFechaAlta(LocalDate fechaAlta) {
+         LocalDate auxiliar = this.getFechaAlta();
         this.fechaAlta = fechaAlta;
-         System.out.println("Hecho");
+        System.out.println("Hecho, Fecha de Alta: "+ auxiliar + " cambiado a "+ this.fechaAlta);
     }
 
     public LocalDate getFechaBaja() {
@@ -139,8 +155,9 @@ public Persona(int idPersona,
     }
 
     public void setFechaBaja(LocalDate fechaBaja) {
+        LocalDate auxiliar = this.getFechaBaja();
         this.fechaBaja = fechaBaja;
-         System.out.println("Hecho");
+        System.out.println("Hecho, Fecha de Baja: "+ auxiliar + " cambiado a "+ this.fechaBaja);
     }
 
     public boolean isActivo() {
@@ -149,7 +166,8 @@ public Persona(int idPersona,
 
     public void setActivo(boolean activo) {
         this.activo = activo;
-         System.out.println("Hecho, activo");
+         if(activo){System.out.println("Hecho, efectivamente, Está Activo");}
+         else { System.out.println("Hecho, Desactivado");}
     }
 
     public boolean isEsProveedor() {
@@ -157,8 +175,8 @@ public Persona(int idPersona,
     }
 
     public void setEsProveedor(boolean esProveedor) {
-        this.esProveedor = esProveedor;
-         System.out.println("Hecho");
+        if(esProveedor){System.out.println("Hecho, efectivamente, Es persona física");}
+         else { System.out.println("Hecho, es persona jurídica");}
     }
 
     
