@@ -19,20 +19,21 @@ public class Notificacion {
     private Producto producto;
        
     private static final Set<Integer> idsUsados = new HashSet(); // el set hace un array sin duplicados.  SHA256()
-    
+    private static int contador =1;
     //Constructor:
 
-    public Notificacion(int idNotificacion, String mensaje, LocalDate fechaNotificacion, String tipo, Producto producto) throws Exception {
-        if (idsUsados.contains(idNotificacion)) {
-            throw new Exception("La Notificacion no se pudo crear, ya que el ID " + idNotificacion + " ya está en uso.");
-        } else{
-        
-        this.idNotificacion= idNotificacion;
+    public Notificacion(String mensaje, LocalDate fechaNotificacion, String tipo, Producto producto)  {
+       
+        this.idNotificacion= contador;
         this.mensaje = mensaje;
         this.fechaNotificacion = fechaNotificacion;
         this.tipo = tipo;
         this.producto = producto;
-        }
+        contador ++;
+        idsUsados.add(idNotificacion);
+        
+        
+        
     }
     
     
@@ -95,7 +96,26 @@ public class Notificacion {
     
     // métodos:
     
-    public void enviarNotificacion(Usuario usuario){
-            // ni idea de como hacerlo sin instalar cosas nuevas o investigar...
+    public static boolean enviarNotificacion(Producto producto){
+        
+        if (producto.productoProximoCaducar(5)&& producto.BajoStock()){
+            Notificacion notificacion = new Notificacion("Producto con bajo stock y proximo a caducar", LocalDate.now(),"completa", producto);
+            System.out.println("Notificación Enviada1");
+            return true;
+        } else if (producto.productoProximoCaducar(5)){
+             Notificacion notificacion = new Notificacion("Producto proximo a caducar", LocalDate.now(),"Caducidad", producto);
+             System.out.println("Notificación Enviada2");
+             return true;
+        } else if (producto.BajoStock()){
+                Notificacion notificacion = new Notificacion("Producto con bajo stock", LocalDate.now(),"bajo Stock", producto);
+                System.out.println("Notificación Enviada3");
+                return true;
+                }else{ System.out.println("Notificacion no enviada");
+            return false;}    
+        
+        
     }
+    
+    
 }
+

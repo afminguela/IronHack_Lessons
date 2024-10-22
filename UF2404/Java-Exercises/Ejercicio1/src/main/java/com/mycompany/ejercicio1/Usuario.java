@@ -62,9 +62,9 @@ public class Usuario extends Persona {
     }
     
     public void setRol(Rol rol){
-        Rol auxiliar = this.getRol();
+        String auxiliar = this.rol.getNombreRol();
         this.rol = rol;
-        System.out.println("Hecho, Rol: "+ auxiliar + " cambiado a "+ this.rol);
+        System.out.println("Hecho, Rol: "+ auxiliar + " cambiado a "+ this.rol.getNombreRol());
     }
         
     
@@ -72,11 +72,9 @@ public class Usuario extends Persona {
     
     public void iniciarSesion(){
         super.setActivo(true);
-        //System.out.println("Sesion Iniciada, Bienvenido " + super.getNombre());
-        // return true;
-      
+              
             if(super.isActivo()){
-               System.out.println("Sesion iniciada, Bienvenido"+ super.getNombre());
+               System.out.println("Sesion iniciada, Bienvenid@ "+ super.getNombre());
             } else { 
                 System.out.println("Por favor inicie sesion correctamente");
                }
@@ -91,21 +89,21 @@ public class Usuario extends Persona {
         
     }
     
-    public void generarReporte(int idReporte){  // exportar a txt. 
+    public Reporte generarReporte(int idReporte){  // exportar a txt. 
           int auxiliar = idReporte;
         // constructor de reportes
-        Reporte reporte = new Reporte(auxiliar);
-        System.out.println("El Reporte "+reporte + " ha sido creado.");
-        
+        Reporte Informe = new Reporte(auxiliar);
+        System.out.println("El Reporte " +auxiliar + " ha sido creado.");
+        return Informe;
     }
     
     public void asignarRol(Usuario usuario, Rol nuevoRol){   // necesario??
         String nomUsuario = usuario.getNombre();
-        String rolUsuario = nuevoRol.getNombreRol();
+        String rolUsuario = usuario.rol.getNombreRol();
         
-        if (this.rol.getNombreRol().equalsIgnoreCase("admin")){
+        if (this.rol.getNombreRol().equalsIgnoreCase("administrador")){
         usuario.setRol(nuevoRol);
-        System.out.println("El usuario " + nomUsuario + " ha cambiado del rol "+ rolUsuario + " al rol " + nuevoRol ); 
+        System.out.println("Confirmado, El usuario " + nomUsuario + " ha cambiado del rol "+ rolUsuario + " al rol " + nuevoRol.getNombreRol() ); 
         } else {
             System.out.println("No tienes el nivel necesario para poder hacer esto.");}
     }

@@ -62,19 +62,29 @@ public class Inventario {
           
     // Filtro por Nombre 
     public static void listarProductosNombre(String nombre){
+        int counter=0;
+        System.out.println("Productos encontrados cuyo nombre coicide con '"+ nombre+"': ");
         for(Producto producto: productos){
             if(producto.getNombre().equalsIgnoreCase(nombre)){
-                System.out.println("Productos encontrados cuyo nombre coicide: " + producto.getNombre());
-            }
+                counter++;
+                System.out.print( counter +"- "+producto.getNombre());
+                
+            } 
         }
     }
     
     // filtro por proveedor
     
-    public static void listarProductosProveedor(String nombreProveedor) {
+    public static void listarProductosProveedor(String nombreProveedor){
+            System.out.println("Producto encontrado cuyo proveedor coincide con '"+ nombreProveedor+"': " );
+
+            int counter=0;
     for (Producto producto : productos) {
+        
         if (producto.getProveedor().getNombre().equalsIgnoreCase(nombreProveedor)) {
-            System.out.println("Producto encontrado cuyo proveedor coincide: " + producto.getNombre());
+            counter++;
+            System.out.println(counter + "- "+ producto.getNombre());
+            
         }
     }
 }
@@ -82,28 +92,38 @@ public class Inventario {
     
     // Filtro por disponibilidad
     public static void listarProductosDisponibilidad(boolean disponibilidad){ // pasarla si true
-        for(Producto producto: productos){
+                            System.out.println("\nProductos encontrados con cuya disponibilidad coincide: " );
+            int counter=0;
+            for(Producto producto: productos){
+              
             if(producto.isDisponibilidad() == disponibilidad){
-                System.out.println("\nProductos encontrados con cuya disponibilidad coincide: " + producto.getNombre());
+                counter++;
+                System.out.println(counter + "- "+ producto.getNombre());
             }
         }
     }
     
     // Filtro por fecha de caducidad
     public static void listarProductosFechaCaducidad(LocalDate fecha){ 
+        System.out.println("\nProductos encontrados con la fecha de caducidad indicada: ");
+        int counter=0;
         for(Producto producto: productos){
             if(fecha.equals(producto.getFechaCaducidad())){
-                System.out.println("\nProductos encontrados con la fecha de caducidad indicada: " + producto.getNombre());
+                counter++;
+                System.out.println(counter+"- "+ producto.getNombre());
             }
         }
     }
     
     // Filtro por rango de precios
     public static void listarProductosRangoPrecio(float precioMax, float precioMin) {
-        System.out.print("\nProductos encontrados dentro del rango de precios: ");
+        int counter =0;
+        System.out.println("\nProductos encontrados dentro del rango de precios: ");
+        
         for (Producto producto : productos) {
             if (precioMin <= producto.getPrecio() && producto.getPrecio() <= precioMax) {
-                System.out.print( producto.getNombre()+", ");
+                counter++;
+                System.out.println(counter +"- "+ producto.getNombre());
         }
     }
 }

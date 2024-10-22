@@ -42,9 +42,10 @@ public class Producto {
             this.disponibilidad = false;
         }
         
+        this.categoria.addProductoCategoria(this); // le asociamos a una categoria
         this.proveedor.addProductoProveedor(this); // le asociamos un proveedor
         Inventario.addProductoInventario(this); // le asociamos a un inventario
-        
+        System.out.println("3. El producto "+ this.Nombre + " se ha creado con éxito");
     }
      
      
@@ -54,6 +55,7 @@ public class Producto {
      
 
     public int getIdProducto() {
+        
         return idProducto;
     }
 
@@ -70,6 +72,7 @@ public class Producto {
     }
 
     public int getStock() {
+        System.out.println(this.stock);
         return stock;
     }
 
@@ -152,31 +155,40 @@ public class Producto {
     
     // Añade al stock
       public void sumarStock(int cantidad){
-            this.stock =+ cantidad;
+            this.stock =  cantidad + this.getStock();
             System.out.println("El stock de " + this.getNombre() + " se ha actualizado a " + this.stock+ " sumándole " + cantidad);
     }
       
       // resta del stock
       public void restarStock(int cantidad){
-          this.stock =- cantidad;
+          this.stock = this.getStock() - cantidad;
           System.out.println("El stock de " + this.getNombre() + " se ha actualizado a " + this.stock+ " restándole " + cantidad);
     }
       
-      // te dice si al producto le quedan menos de 5 dias para caducar ( rsponde si o no
-      public boolean productoProximoCaducar(){
-          LocalDate hoy = LocalDate.now();
-          LocalDate caducidad = this.getFechaCaducidad();
-          if (caducidad.isAfter(hoy)&& caducidad.isBefore(hoy.plusDays(5))){
-              System.out.println("El producto "+ this.getNombre() + "está a punto de caducar");
-               return true; }
-          else {
-          return false;}
-          
+      // te dice si al producto le quedan menos de X dias para caducar tiene un booleano para usarlo en otro lado
+      public boolean productoProximoCaducar(int diasLimite) {
+            LocalDate hoy = LocalDate.now();
+            LocalDate caducidad = this.getFechaCaducidad();
+    
+    if (caducidad.isBefore(hoy) || caducidad.isEqual(hoy)) {
+        System.out.println("El producto ya ha caducado");
+        return true;
+    } else if (caducidad.isAfter(hoy) && caducidad.isEqual(hoy.plusDays(diasLimite))) {
+        System.out.println("El producto caducará pronto"); 
+        return true;
+    } else {
+        System.out.println("El producto no caducará pronto"); 
+        return false;
     }
-      // te dice si del producto quedan menos de 5 unidades.
-      public void BajoStock(){
-          if( this.stock > 5){
-              System.out.println("El producto " + this.getNombre() + " tiene stock menor de 5");}
-    }
-      
 }
+          
+    
+      // te dice si del producto quedan menos de 5 unidades.
+      public boolean BajoStock(){
+          if( this.stock < 5){
+              System.out.println("El producto " + this.getNombre() + " tiene un stock menor de 5");
+         return true;}
+     else{ return false;}}
+}
+      
+

@@ -18,26 +18,45 @@ public class Reporte {
         private String titulo;
         private String contenido;
         private Inventario inventario;
+        private final Set<Integer> idsUsados = new HashSet(); //* el set hace un array sin duplicados.  SHA256()
         
+        // añadir listas de stockbajo y cercacaducuidad
         
-        public Reporte(int idReporte){  // reporte solo con id
+        // contador Ids Unicos Automático
+        
+        private int contadorIds = 1;
+
+        private  int generarIDUnico(){
+                while (idsUsados.contains(contadorIds))
+                { contadorIds++;
+                    } 
+                return  contadorIds++;}
+        
+       //  Constructor 
+       
+        public Reporte(int idReporte){ //* reporte solo con id se usa en usuario.generarReporte()
+            if (idsUsados.contains(idReporte)) {
+                System.out.println("La Notificacion no se pudo crear, ya que el ID " + idReporte + " ya está en uso.");
+        } else{ 
             this.idReporte = idReporte;
-        }
+            idsUsados.add(this.idReporte);
+        }}
         
-        public void Reporte(int idReporte,LocalDate fechaGeneracion,String formato,
+        public void Reporte(String formato, // reporte completo Auto
                 String titulo, String contenido, Inventario inventario){
             
-            this.idReporte = idReporte;
+            this.idReporte = generarIDUnico();
             this.fechaGeneracion = LocalDate.now();
             this.formato = formato;
             this.titulo = titulo;
-            this.contenido = contenido;
-            
+            this.contenido = contenido; // if condicional para el relleno. 
+            idsUsados.add(this.idReporte); //**
         }
 
         // Getters
         
     public int getIdReporte() {
+        System.out.println(this.idReporte);
         return idReporte;
     }
 
@@ -94,9 +113,22 @@ public class Reporte {
     
     
     // incluir productos proximos a caducar en reporte
-    public void anyadirProdCaducados(){};
+    public void anyadirProdCaducados(Inventario inventario){
+    // Busca el reporte que coincide con el id
+    //añade resultado de funcion de producto.proximocaducar
+    
+    // al listado del reporte que le pasamos prodCAducados.add
+    };
     // incluir productos bajo stock
     public void anyadirBajoStock(){};
     
     
+    
+    
+    
+
+
+
+
+
 }

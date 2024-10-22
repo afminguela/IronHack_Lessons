@@ -91,7 +91,7 @@ public class Proveedor extends Persona {
     public void addProductoProveedor(Producto producto){
             Proveedor auxiliar = producto.getProveedor();
             this.productos.add(producto);
-            System.out.println("Se ha Añadido ñadido "+ producto.getNombre() + " a la lista del proveedor " + auxiliar.getNombre());
+            System.out.println("2. Se ha Añadido "+ producto.getNombre() + " a la lista del proveedor " + auxiliar.getNombre());
     }
     
     

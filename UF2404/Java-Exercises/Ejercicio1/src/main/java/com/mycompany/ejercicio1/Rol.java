@@ -27,8 +27,9 @@ public class Rol {
     public Rol(int idRol, String nombreRol, List<String> permisos) {
         this.idRol = idRol;
         this.nombreRol = nombreRol;
-        this.permisos = permisos;
+        this.permisos = new ArrayList<>(permisos);
         Inventario.addRoles(this);
+        System.out.println("Rol de "+this.nombreRol + " creado.");
     }
     // Getters
 
@@ -41,6 +42,7 @@ public class Rol {
     }
 
     public List<String> getPermisos() {
+        System.out.println(this.permisos);
         return permisos;
     }
 
@@ -67,38 +69,42 @@ public class Rol {
     
 
     // métodos:
-    public void anyadirPermiso(String permiso){
+    public void anyadirPermiso(String permiso){ /// falla
+            if (!permisos.contains(permiso)) {
             permisos.add(permiso);
-            System.out.println(permiso+" añadido al rol"+ this.getNombreRol());
+            System.out.println(permiso + " añadido al rol " + this.getNombreRol());
+        } else {
+            System.out.println("El permiso " + permiso + " ya existe en el rol " + this.getNombreRol());
+        }
+        System.out.println("Permisos actuales: " + permisos);
+            
             
     }
      
-    public boolean tienePermiso (String permiso){
-               // Comparacion
-            boolean permisoAux = false;   
-            for (String i : permisos){
-                 if (i.equalsIgnoreCase(permiso)){
-                 permisoAux = true;
-                     System.out.println("Enhorabuena, tienes permiso para "+ permiso);
-                 }
-                 else {permisoAux = false;
-                     System.out.println("Lo sentimos pero " + permiso + " no está incluido en tus permisos, habla con un administrador si crees que deberias tenerlos.");}
-            }
-            return permisoAux;
-    }
-    
-    public void eliminarPermiso (String permiso){
-              //borrar cadena
-              String permisoAux = "";   
-            for (String i : permisos){
-                 if (i.equalsIgnoreCase(permiso)){
-                 permisos.remove(permiso);
-                 permisoAux = "Permiso "+ permiso +" revocado.";
-                 }
-                 else {permisoAux = "Ese permiso no existe";}
-            }
-           System.out.println(permisoAux);
+    public void tienePermiso (String permiso){
               
+          if (permisos.contains(permiso)){
+               
+             System.out.println("Enhorabuena, tienes permiso para "+ permiso);
+           }else { 
+              System.out.println("Lo sentimos pero " + permiso + " no está incluido en tus permisos, habla con un administrador si crees que deberias tenerlos.");}
+           
     }
+          
+    
+    
+    public void eliminarPermiso(String permiso){
+                                     
+                 if (permisos.contains(permiso)){
+                 permisos.remove(permiso);
+                     System.out.println("Permiso "+ permiso +" revocado.");
+                 }
+                 else {System.out.println("Ese permiso no existe");}
+                 
+                 System.out.println("Permisos actuales: " + permisos);
+            }
+           
+              
+    
 
 }
