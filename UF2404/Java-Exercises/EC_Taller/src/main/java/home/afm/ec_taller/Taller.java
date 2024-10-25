@@ -136,7 +136,7 @@ public class Taller {
     
     public static void realizarReparacion(Reparacion reparacion){  
                 reparaciones.add(reparacion);
-           System.out.println("Añadida reparacion " + reparacion.getDescripcion() +" a la lista del Taller");
+           System.out.println("\nAñadida reparacion " + reparacion.getDescripcion() +" a la lista del Taller");
     }
     
     // Reparaciones; Dar de baja reparacion
@@ -145,7 +145,7 @@ public class Taller {
         for(Reparacion reparacion: reparaciones){
             if (reparacion.getIdReparacion() == idReparacion) {
            reparaciones.remove(reparacion);
-           System.out.println("Quitada reparacion " + reparacion.getDescripcion() +" de la lista del Taller");
+           System.out.println("\nQuitada reparacion " + reparacion.getDescripcion() +" de la lista del Taller");
            }
         }
        
@@ -158,9 +158,10 @@ public class Taller {
         int counter = 0;
         for (Reparacion r : reparaciones) {
             counter++;
-            System.out.print(counter);
-            //System.out.print("- "+ r.getVehiculo().mostrarInfoVehiculo());
-            System.out.print( "- "+ r.getDescripcion());
+            System.out.println("\n");
+            System.out.print( counter);
+            System.out.print("- "+ r.getVehiculo().getMatricula());
+            System.out.print( " - "+ r.getDescripcion());
         } 
     }
     

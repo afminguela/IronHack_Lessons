@@ -30,7 +30,7 @@ public class Reparacion {
         counter++;
         
         
-        Taller.realizarReparacion(this);
+        
     }
     
     

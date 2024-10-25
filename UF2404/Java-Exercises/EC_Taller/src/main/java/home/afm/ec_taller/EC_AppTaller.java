@@ -35,15 +35,15 @@ public class EC_AppTaller {
         Scanner scanner = new Scanner(System.in);
         System.out.println("-+-+-+-+-+-+-+--+ BIENVENIDO A TALLERES MANOLO -+-+-+-+-+-+-+-+-+-");
         while (true) {
-            System.out.println("\nOpciones principales:");
-            System.out.println("1. Clientes");
-            System.out.println("2. Vehículos");
-            System.out.println("3. Reparaciones");
+            System.out.println("\nMenu principal:");
+            System.out.println("1. Menu Clientes");
+            System.out.println("2. Menu Vehículos");
+            System.out.println("3. Menu Reparaciones");
             System.out.println("4. Salir");
 
-            System.out.print("Ingrese su opción principal: ");
+            System.out.print("¿Que quieres hacer? : ");
             int opcionPrincipal = scanner.nextInt();
-            scanner.nextLine(); // Consume newline left-over
+            scanner.nextLine(); 
 
             switch (opcionPrincipal) {
                 case 1:
@@ -59,7 +59,7 @@ public class EC_AppTaller {
                     System.out.println("Gracias por utilizar el sistema.");
                     return;
                 default:
-                    System.out.println("Opción inválida. Por favor, intente nuevamente.");
+                    System.out.println("Opción inválida. Por favor, intente de nuevo.");
             }
         }
     }
@@ -70,10 +70,10 @@ public class EC_AppTaller {
             System.out.println("1. Añadir cliente");
             System.out.println("2. Mostrar cliente");
             System.out.println("3. Dar de baja cliente");
-            System.out.println("4. Regresar");
+            System.out.println("4. Regresar al menu anterior");
 
             int opcionCliente = scanner.nextInt();
-            scanner.nextLine(); // Consume newline left-over
+            scanner.nextLine(); 
 
             switch (opcionCliente) {
                 case 1:
@@ -83,7 +83,7 @@ public class EC_AppTaller {
                     mostrarCliente(scanner, taller);
                     break;
                 case 3:
-                    darBajaCliente(taller);
+                    darBajaCliente(scanner, taller);
                     break;
                 case 4:
                     return;
@@ -100,10 +100,10 @@ public class EC_AppTaller {
             System.out.println("2. Mostrar vehículo");
             System.out.println("3. Dar de baja vehículo");
             System.out.println("4. Asignar propietario al vehículo");
-            System.out.println("5. Regresar");
+            System.out.println("5. Regresar al menu anterior");
 
             int opcionVehiculo = scanner.nextInt();
-            scanner.nextLine(); // Consume newline left-over
+            scanner.nextLine(); 
 
             switch (opcionVehiculo) {
                 case 1:
@@ -113,7 +113,7 @@ public class EC_AppTaller {
                     mostrarVehiculo(scanner, taller);
                     break;
                 case 3:
-                    darBajaVehiculo(taller);
+                    darBajaVehiculo(scanner,taller);
                     break;
                 case 4:
                     asignarPropietarioVehiculo(scanner, taller);
@@ -133,7 +133,7 @@ public class EC_AppTaller {
             System.out.println("2. Eliminar reparación");
             System.out.println("3. Listar reparaciones activas");
             System.out.println("4. Contar reparaciones totales");
-            System.out.println("5. Regresar");
+            System.out.println("5. Regresar al menu anterior");
 
             int opcionReparacion = scanner.nextInt();
             scanner.nextLine(); // Consume newline left-over
@@ -143,7 +143,7 @@ public class EC_AppTaller {
                     realizarReparacion(scanner, taller);
                     break;
                 case 2:
-                    eliminarReparacion(taller);
+                    eliminarReparacion(scanner,taller);
                     break;
                 case 3:
                     listarReparacionesActivas(taller);
@@ -159,101 +159,121 @@ public class EC_AppTaller {
         }
     }
 
+    
+    // --------- Menu clientes --------
+    
     private static void añadirCliente(Scanner scanner, Taller taller) {
-        System.out.print("Ingrese nombre del cliente: ");
+        System.out.print("Escribe el nombre del cliente: ");
         String nombre = scanner.nextLine().trim();
-        System.out.print("Ingrese telefono del cliente: ");
+        System.out.print("Escribe el telefono del cliente: ");
         String telefono = scanner.nextLine().trim();
         
         taller.registrarCliente(new Cliente(nombre, telefono));
-        System.out.println("Cliente añadido con éxito.");
+        System.out.println("\nCliente añadido con éxito.");
     }
 
     private static void mostrarCliente(Scanner scanner, Taller taller) {
-        System.out.print("Ingrese número del cliente para mostrar información: ");
+        System.out.print("Escribe número del cliente para mostrar información: ");
         int idCliente = scanner.nextInt();
-        scanner.nextLine(); // Consume newline left-over
+        scanner.nextLine(); 
         
-        taller.mostrarInfo(idCliente); // la función está en clase cliente  
+        taller.mostrarInfo(idCliente); // la función está en clase cliente, se accede desde una funcion puente en Taller
     }
 
-    private static void darBajaCliente(Taller taller) {
-        System.out.print("Ingrese número del cliente para dar de baja: ");
-        int numeroCliente = taller.getClientes().size() + 1; // Asumiendo que los números de cliente son consecutivos y comienzan desde 1
+    private static void darBajaCliente(Scanner scanner, Taller taller) {
+        System.out.print("Escribe número del cliente para dar de baja: ");
+        int numeroCliente = scanner.nextInt(); 
         taller.bajaCliente(numeroCliente);
-        System.out.println("Cliente eliminado con éxito.");
+        System.out.println("\nCliente eliminado con éxito.");
     }
 
+    
+    // -------- Menu Vehiculos ------
+    
     private static void añadirVehiculo(Scanner scanner, Taller taller) {
-        System.out.print("Ingrese matrícula del vehículo: ");
+        System.out.print("Escribe la matrícula del vehículo: ");
         String matricula = scanner.nextLine().trim();
-        System.out.print("Ingrese marca del vehículo: ");
+        System.out.print("Escribe la marca del vehículo: ");
         String marca = scanner.nextLine().trim();
-        System.out.print("Ingrese modelo del vehículo: ");
+        System.out.print("Escribe la modelo del vehículo: ");
         String modelo = scanner.nextLine().trim();
         
         taller.registrarVehiculo(new Vehiculo(matricula, marca, modelo));
-        System.out.println("Vehículo añadido con éxito.");
+        System.out.println("\nVehículo añadido con éxito.");
     }
 
     private static void mostrarVehiculo(Scanner scanner, Taller taller) {
-        System.out.print("Ingrese matrícula del vehículo para mostrar información: ");
+        System.out.print("Escribe la matrícula del vehículo para mostrar información: ");
         String matricula = scanner.nextLine().trim();
         
         taller.mostrarInfoVehiculo(matricula);
     }
 
-    private static void darBajaVehiculo(Taller taller) {
-        System.out.print("Ingrese matrícula del vehículo para dar de baja: ");
-        String matricula = taller.getVehiculos().get(0).getMatricula(); // Asumiendo que el primer vehículo es el primero en ser eliminado
+    private static void darBajaVehiculo(Scanner scanner,Taller taller) {
+        System.out.print("Escribe la matrícula del vehículo para dar de baja: ");
+        String matricula = scanner.nextLine().trim(); 
         taller.bajaVehiculo(matricula);
-        System.out.println("Vehículo eliminado con éxito.");
+        System.out.println("\nVehículo eliminado con éxito.");
     }
 
     private static void asignarPropietarioVehiculo(Scanner scanner, Taller taller) {
-        System.out.print("Ingrese matrícula del vehículo: ");
+        System.out.print("Escribe la matrícula del vehículo: ");
         String matricula = scanner.nextLine().trim();
-        System.out.print("Ingrese número del cliente propietario: ");
+        System.out.print("Escribe el número del cliente propietario: ");
         int numeroCliente = scanner.nextInt();
-        scanner.nextLine(); // Consume newline left-over
+        scanner.nextLine(); 
         
         taller.addPropietarioVehiculo(matricula, numeroCliente);
-        System.out.println("Propietario asignado con éxito.");
+        System.out.println("\nPropietario asignado con éxito.");
     }
 
+    
+    // --------- menu Reparaciones ------- 
+    
+    
     private static void realizarReparacion(Scanner scanner, Taller taller) {
-        System.out.print("Ingrese matrícula del vehículo: ");
+        System.out.print("Escribe la matrícula del vehículo: ");
         String matricula = scanner.nextLine().trim();
-        System.out.print("Ingrese marca del vehículo: ");
+        System.out.print("Escribe la marca del vehículo: ");
         String marca = scanner.nextLine().trim();
-        System.out.print("Ingrese modelo del vehículo: ");
+        System.out.print("Escribe el modelo del vehículo: ");
         String modelo = scanner.nextLine().trim();
-        System.out.print("Ingrese descripción de la reparación: ");
+        System.out.print("Dame una descripcion de la reparación: ");
         String descripcion = scanner.nextLine().trim();
-        System.out.print("Ingrese costo de la reparación: $");
+        System.out.print("Escribe el coste de la reparación: €");
         double costo = scanner.nextDouble();
         
-        taller.realizarReparacion(new Reparacion(matricula, marca, modelo, descripcion, costo));
-        System.out.println("Reparación añadida con éxito.");
+        try {
+        Reparacion reparacion = new Reparacion(matricula, marca, modelo, descripcion, costo);
+        taller.realizarReparacion(reparacion);
+        System.out.println("\nReparación añadida con éxito.");
+    } catch (Exception e) {
+        System.err.println("\nHa ocurrido un error al intentar agregar la reparación: " + e.getMessage());
+    
+    }
     }
 
-    private static void eliminarReparacion(Taller taller) {
+    
+    
+    private static void eliminarReparacion(Scanner scanner,Taller taller) {
         System.out.print("Ingrese número de la reparación para eliminarla: ");
-        int idReparacion = taller.getReparaciones().size() + 1; // Asumiendo que los números de reparación son consecutivos y comienzan desde 1
+        int idReparacion =  scanner.nextInt();
         taller.bajaReparacion(idReparacion);
-        System.out.println("Reparación eliminada con éxito.");
+        System.out.println("/nReparación eliminada con éxito.");
     }
 
+    
+    
     private static void listarReparacionesActivas(Taller taller) {
         taller.listarReparaciones();
     }
 
     private static void contarReparacionesTotales(Taller taller) {
-        System.out.println("Número total de reparaciones: " + taller.contarReparaciones());
+        System.out.println("/nNúmero total de reparaciones: " + taller.contarReparaciones());
     }
 }
 
-    1
+    
 
     
 

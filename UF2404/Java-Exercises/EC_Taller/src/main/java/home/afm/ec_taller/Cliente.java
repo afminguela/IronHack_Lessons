@@ -24,7 +24,7 @@ public class Cliente extends Persona {     // la clase Cliente extiende la clase
         this.Vehiculos = new ArrayList<>();
         mostrarInfo(super.idPersona);
         
-        Taller.registrarCliente(this);
+       
     }       
 
         
@@ -50,23 +50,23 @@ public class Cliente extends Persona {     // la clase Cliente extiende la clase
     @Override
     public void mostrarInfo(int idCliente) {
         if(this.getIdPersona() == idCliente){
-         System.out.println("El Cliente " + this.getIdPersona() + " se llama  " + this.getNombre()+ " y su telefono es " + this.getTelefono());
-        } else { System.out.println("Cliente no encontrado");}
+         System.out.println("\nEl Cliente " + this.getIdPersona() + " se llama  " + this.getNombre()+ " y su telefono es " + this.getTelefono());
+        } else { System.out.println("\nCliente no encontrado");}
     }
     
     
     // añade un Vehiculo a la lista de vehiculos en cliente
     public void addVehiculoCliente(Vehiculo vehiculo){
-            Cliente auxiliar = vehiculo.getPropietario();
+           
             this.Vehiculos.add(vehiculo);
-            System.out.println(" Se ha Añadido el vehiculo con matricula: "+ vehiculo.getModelo() + " a la lista del Cliente "+ auxiliar.getNombre());
+            System.out.println("\n Se ha Añadido el vehiculo con matricula: "+ vehiculo.getModelo() + " a la lista del Cliente "+ this.getNombre());
     }
     
     // elimina un vehiculo de la lista del cliente
     public void removeVehiculoCliente(Vehiculo vehiculo){
-            Cliente auxiliar = vehiculo.getPropietario();
+           
             this.Vehiculos.remove(vehiculo);
-            System.out.println(" Se ha quitado el vehiculo: "+ vehiculo.getModelo() + " a la lista del Cliente " + auxiliar.getNombre());
+            System.out.println("\n Se ha quitado el vehiculo: "+ vehiculo.getModelo() + " a la lista del Cliente " + this.getNombre());
     }
     
     

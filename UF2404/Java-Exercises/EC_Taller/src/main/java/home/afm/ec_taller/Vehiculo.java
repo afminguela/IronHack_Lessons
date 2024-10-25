@@ -74,7 +74,7 @@ public class Vehiculo {
     // mostrar info vehiculo ( matricula marca modelo y dueño)
 
 public void mostrarInfoVehiculo(){
-        System.out.println("Datos de este vehiculo:  ");
+        System.out.println("\nDatos de este vehiculo:  ");
         System.out.println("Matricula: "+ getMatricula()); 
         System.out.println("Marca: "+ getMarca()); 
         System.out.println("Modelo: "+ getModelo()); 
