@@ -48,7 +48,7 @@ public class Taller {
     }
     
     
-    // --------------------------------   Metodos                 -------------- 
+    // --------------------------------   Metodos sobre Clientes               -------------- 
     
     
     // Clientes; registrar uno nuevo
@@ -103,6 +103,19 @@ public class Taller {
         } 
     }
     
+    // Clientes; Buscar cliente por id
+    public static Cliente buscarClientesporId(int idCliente){      
+        for(Cliente cliente: clientes){
+            if (cliente.getIdPersona() == idCliente){
+                return cliente;
+            } 
+                              
+        }
+            return null;
+        
+    }    
+     
+   //----------------Metodos sobre vehiculos  ------------------
     // Vehiculos; Registrar vehiculo
     
     public static void registrarVehiculo(Vehiculo vehiculo){
@@ -114,24 +127,27 @@ public class Taller {
     
      // Vehiculos; dar de baja vehiculo
     public static void bajaVehiculo(String matricula){
-       for(Vehiculo vehiculo: vehiculos ){
-            if (vehiculo.getMatricula().equalsIgnoreCase(matricula)){
-                vehiculos.remove(vehiculo);
-                System.out.println("dado de baja el cliente: " + vehiculo.getMatricula() +" de la lista del Taller");
-            }
+
+       Vehiculo auxiliar = buscarVehiculoporMatricula(matricula);  // uso la funcion buscar por matricula y luego la funcion mostrar
+       
+       if (auxiliar !=null){
+                vehiculos.remove(auxiliar);
+                System.out.println("dado de baja el cliente: " + auxiliar.getMatricula() +" de la lista del Taller");
+            } else System.out.println("El vehiculo no existe"); 
        }
-    }
+    
     
      // Vehiculos; mostrar vehiculo
     
     
     
     public static void mostrarInfoVehiculo(String matricula){
-        for( Vehiculo vehiculo: vehiculos){
-            if (vehiculo.getMatricula().equalsIgnoreCase(matricula)){
-                vehiculo.mostrarInfoVehiculo();
-            }
-        }
+       
+       Vehiculo auxiliar = buscarVehiculoporMatricula(matricula);  // uso la funcion buscar por matricula y luego la funcion mostrar
+       if (auxiliar !=null)
+       {auxiliar.mostrarInfoVehiculo();} 
+       else {System.out.println("El vehiculo no existe"); }
+
     }
         
     //Vehiculo; Añadir propietario a vehiculo.
@@ -139,22 +155,34 @@ public class Taller {
     public static void addPropietarioVehiculo(String matricula, int idCliente){
         Vehiculo Vauxiliar = null;
         
-        for(Vehiculo vehiculo: vehiculos){
-            if(vehiculo.getMatricula().equalsIgnoreCase(matricula)){
-                Vauxiliar = vehiculo;
-            }           
-        }
-        for( Cliente cliente: clientes){
-            if (cliente.getIdPersona() == idCliente){
-                cliente.addVehiculoCliente(Vauxiliar);
-            }
+        Vauxiliar = buscarVehiculoporMatricula(matricula);
+        
+        if(Vauxiliar == null){ System.out.println("El Vehiculo no existe");  // Si no está
+         return;
         }
         
+        Cliente cauxiliar = buscarClientesporId(idCliente); //ejecutamos buscar cliente y guardamos para reutilizar
         
-    
+        if (cauxiliar != null){
+        cauxiliar.addVehiculoCliente(Vauxiliar);     // añadimos cliente al vehiculo
+            System.out.println("Vehiculo asignado");
+         } else{ System.out.println("El Cliente no existe");}
+        
     }
     
-    // Reparaciones; Registrar nueva reparacion
+    // buscar vehiculo por matricula
+    public static Vehiculo buscarVehiculoporMatricula(String matricula){
+    for(Vehiculo vehiculo: vehiculos){                // buscamos el vehiculo por la matricula
+            if(vehiculo.getMatricula().equalsIgnoreCase(matricula)){
+                return vehiculo;
+                
+            }           
+        } return null;
+    }
+    //----------------   Metodos sobre Reparaciones  -------------------------------------------------------------------- 
+    
+    
+// Reparaciones; Registrar nueva reparacion
     
     public static void realizarReparacion(Reparacion reparacion){  
                 reparaciones.add(reparacion);
@@ -174,7 +202,7 @@ public class Taller {
     }
         
     
-    //Reparaciones; listarReparaciones() que imprima todas las reparaciones realizadas.
+    //Reparaciones; imprime todas las reparaciones realizadas.
     
     public void listarReparaciones() {
         int counter = 0;
@@ -195,7 +223,7 @@ public class Taller {
     
   
     
-    //Reparaciones;  contarReparaciones() que devuelva el número total de reparaciones registradas.
+    //Reparaciones;  número total de reparaciones registradas.
     
     
     public static int contarReparaciones() {

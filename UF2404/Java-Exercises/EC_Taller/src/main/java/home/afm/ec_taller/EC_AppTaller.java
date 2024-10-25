@@ -14,26 +14,15 @@ import java.util.Scanner;
 
 public class EC_AppTaller {
     
-    // Crea una instancia de Taller.
-
-
-     //  Registra algunos clientes y vehículos.
+// _*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_ Inicio Programa _*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*      
+        public static void main(String[] args) {
     
-    // Realiza algunas reparaciones usando Scanner para recibir detalles de entrada.
-    
-    // Muestra la lista de reparaciones activas.
-    
-    // muestra los datos de clientes, añade propietario a los vehiculos, cuenta las reparaciones totales
-    
-    
-    public static void main(String[] args) {
-    
-
-
   
         Taller taller = new Taller("Talleres Manolo");
         Scanner scanner = new Scanner(System.in);
-        System.out.println("-+-+-+-+-+-+-+--+ BIENVENIDO A TALLERES MANOLO -+-+-+-+-+-+-+-+-+-");
+        
+        
+        System.out.println("-+-+-+-+-+-+-+--+ BIENVENIDO A "+ taller.getNombre() +" -+-+-+-+-+-+-+-+-+-");
         while (true) {
             System.out.println("\nMenu principal:");
             System.out.println("1. Menu Clientes");
@@ -64,6 +53,8 @@ public class EC_AppTaller {
         }
     }
 
+     // *_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*  FIN DEL PROGRAMA _*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*    
+        
     private static void menuClientes(Scanner scanner, Taller taller) {
         while (true) {
             System.out.println("\nMenú de Clientes:");
@@ -143,7 +134,7 @@ public class EC_AppTaller {
             
             System.out.print("\n¿Que quieres hacer? : ");
             int opcionReparacion = scanner.nextInt();
-            scanner.nextLine(); // Consume newline left-over
+            scanner.nextLine(); 
 
             switch (opcionReparacion) {
                 case 1:
@@ -166,7 +157,7 @@ public class EC_AppTaller {
         }
     }
 
-    // *__**_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_* . FIN DEL PROGRAMA _*_*_*_*_*_*_*_*_*_*_*_*_**_*__*_*_*_*_*_*_*_*_**__*_*_*_*_*_*
+   
     
 
 
