@@ -47,6 +47,8 @@ public static void menuVehiculos(Scanner scanner, Taller taller) {
         }
     }
 
+// metodos de las funciones del menu
+
 private static void añadirVehiculo(Scanner scanner, Taller taller) {
         System.out.print("Escribe la matrícula del vehículo: ");
         String matricula = scanner.nextLine().trim();

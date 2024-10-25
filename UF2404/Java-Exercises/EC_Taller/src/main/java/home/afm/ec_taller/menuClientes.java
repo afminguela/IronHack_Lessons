@@ -47,9 +47,10 @@ public class menuClientes {
             }
         }
     }
+    
     // --------- Menu clientes --------
     
-    public static void añadirCliente(Scanner scanner, Taller taller) {
+    private static void añadirCliente(Scanner scanner, Taller taller) {
         System.out.print("Escribe el nombre del cliente: ");
         String nombre = scanner.nextLine().trim();
         System.out.print("Escribe el telefono del cliente: ");
@@ -59,7 +60,7 @@ public class menuClientes {
         System.out.println("\nCliente añadido con éxito.");
     }
 
-    public static void mostrarCliente(Scanner scanner, Taller taller) {
+    private static void mostrarCliente(Scanner scanner, Taller taller) {
         System.out.print("Escribe número del cliente para mostrar información: ");
         int idCliente = scanner.nextInt();
         scanner.nextLine(); 
@@ -67,7 +68,7 @@ public class menuClientes {
         taller.mostrarInfo(idCliente); // la función está en clase cliente, se accede desde una funcion puente en Taller
     }
 
-    public static void darBajaCliente(Scanner scanner, Taller taller) {
+    private static void darBajaCliente(Scanner scanner, Taller taller) {
         System.out.print("Escribe número del cliente para dar de baja: ");
         int numeroCliente = scanner.nextInt(); 
         taller.bajaCliente(numeroCliente);
@@ -75,7 +76,7 @@ public class menuClientes {
        
     }
 
-    public static void listarClientesActivos(Taller taller) {
+    private static void listarClientesActivos(Taller taller) {
         taller.listarClientes();
     }
     
