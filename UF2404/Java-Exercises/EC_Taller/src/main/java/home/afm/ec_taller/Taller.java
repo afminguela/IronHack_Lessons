@@ -170,7 +170,8 @@ public class Taller {
         
     }
     
-    // buscar vehiculo por matricula
+// Vehiculos; buscar vehiculo por matricula
+    
     public static Vehiculo buscarVehiculoporMatricula(String matricula){
     for(Vehiculo vehiculo: vehiculos){                // buscamos el vehiculo por la matricula
             if(vehiculo.getMatricula().equalsIgnoreCase(matricula)){
