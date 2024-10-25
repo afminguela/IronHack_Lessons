@@ -41,7 +41,7 @@ public class EC_AppTaller {
             System.out.println("3. Menu Reparaciones");
             System.out.println("4. Salir");
 
-            System.out.print("¿Que quieres hacer? : ");
+            System.out.print("\n¿Que quieres hacer? : ");
             int opcionPrincipal = scanner.nextInt();
             scanner.nextLine(); 
 
@@ -70,8 +70,10 @@ public class EC_AppTaller {
             System.out.println("1. Añadir cliente");
             System.out.println("2. Mostrar cliente");
             System.out.println("3. Dar de baja cliente");
-            System.out.println("4. Regresar al menu anterior");
-
+            System.out.println("4. Listar Clientes Activos");
+            System.out.println("5. Regresar al menu anterior");
+            
+            System.out.print("\n¿Que quieres hacer? : ");
             int opcionCliente = scanner.nextInt();
             scanner.nextLine(); 
 
@@ -86,6 +88,9 @@ public class EC_AppTaller {
                     darBajaCliente(scanner, taller);
                     break;
                 case 4:
+                    listarClientesActivos(taller);
+                    break;
+                case 5:
                     return;
                 default:
                     System.out.println("Opción inválida. Por favor, intente nuevamente.");
@@ -101,7 +106,8 @@ public class EC_AppTaller {
             System.out.println("3. Dar de baja vehículo");
             System.out.println("4. Asignar propietario al vehículo");
             System.out.println("5. Regresar al menu anterior");
-
+            
+            System.out.print("\n¿Que quieres hacer? : ");
             int opcionVehiculo = scanner.nextInt();
             scanner.nextLine(); 
 
@@ -134,7 +140,8 @@ public class EC_AppTaller {
             System.out.println("3. Listar reparaciones activas");
             System.out.println("4. Contar reparaciones totales");
             System.out.println("5. Regresar al menu anterior");
-
+            
+            System.out.print("\n¿Que quieres hacer? : ");
             int opcionReparacion = scanner.nextInt();
             scanner.nextLine(); // Consume newline left-over
 
@@ -159,8 +166,11 @@ public class EC_AppTaller {
         }
     }
 
+    // *__**_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_* . FIN DEL PROGRAMA _*_*_*_*_*_*_*_*_*_*_*_*_**_*__*_*_*_*_*_*_*_*_**__*_*_*_*_*_*
     
-    // --------- Menu clientes --------
+
+
+// --------- Menu clientes --------
     
     private static void añadirCliente(Scanner scanner, Taller taller) {
         System.out.print("Escribe el nombre del cliente: ");
@@ -184,9 +194,13 @@ public class EC_AppTaller {
         System.out.print("Escribe número del cliente para dar de baja: ");
         int numeroCliente = scanner.nextInt(); 
         taller.bajaCliente(numeroCliente);
-        System.out.println("\nCliente eliminado con éxito.");
+        
+       
     }
 
+    private static void listarClientesActivos(Taller taller) {
+        taller.listarClientes();
+    }
     
     // -------- Menu Vehiculos ------
     
@@ -202,6 +216,7 @@ public class EC_AppTaller {
         System.out.println("\nVehículo añadido con éxito.");
     }
 
+    
     private static void mostrarVehiculo(Scanner scanner, Taller taller) {
         System.out.print("Escribe la matrícula del vehículo para mostrar información: ");
         String matricula = scanner.nextLine().trim();
@@ -209,6 +224,7 @@ public class EC_AppTaller {
         taller.mostrarInfoVehiculo(matricula);
     }
 
+    
     private static void darBajaVehiculo(Scanner scanner,Taller taller) {
         System.out.print("Escribe la matrícula del vehículo para dar de baja: ");
         String matricula = scanner.nextLine().trim(); 
@@ -216,6 +232,7 @@ public class EC_AppTaller {
         System.out.println("\nVehículo eliminado con éxito.");
     }
 
+    
     private static void asignarPropietarioVehiculo(Scanner scanner, Taller taller) {
         System.out.print("Escribe la matrícula del vehículo: ");
         String matricula = scanner.nextLine().trim();
@@ -269,7 +286,7 @@ public class EC_AppTaller {
     }
 
     private static void contarReparacionesTotales(Taller taller) {
-        System.out.println("/nNúmero total de reparaciones: " + taller.contarReparaciones());
+        taller.contarReparaciones();
     }
 }
 

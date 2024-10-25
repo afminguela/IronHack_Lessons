@@ -62,24 +62,46 @@ public class Taller {
     // Clientes; Dar de baja 
     
     public  void bajaCliente(int idCliente){
-        for(Cliente cliente: clientes ){
-            if (cliente.getIdPersona() == idCliente){
-            clientes.remove(cliente);
-            System.out.println("dado de baja el cliente: " + cliente.getNombre() +" de la lista del Taller");
+        if(clientes.isEmpty()){
+                System.out.println("\n No hay clientes para mostrar");}
+        else{
+            for(Cliente cliente: clientes ){
+                if (cliente.getIdPersona() == idCliente){
+                        clientes.remove(cliente);
+                        System.out.println("El cliente: " + cliente.getNombre() +"se ha dado debaja con éxito de la lista del Taller");
+                } else{ System.out.println("El cliente no existe");}
         }
-        }
-    }
+    }}
    // Clientes; mostrar info  
     
     public static void mostrarInfo(int idCliente){
         for( Cliente cliente: clientes){
             if (cliente.getIdPersona() == idCliente){
                 cliente.mostrarInfo(idCliente);
-            }
+            }else{ System.out.println("El cliente no existe");}
         }
         
     }
     
+    // Clientes; listar clientes
+    public void listarClientes() {
+        int counter = 0;
+        
+            if(clientes.isEmpty()){
+                System.out.println("\n No hay clientes para mostrar");}
+            else{
+                System.out.println("\n Listado de Clientes");
+            for (Cliente r : clientes) {
+            counter++;
+            
+            System.out.print( counter);
+            System.out.print(" - IdCliente: "+ r.getIdPersona());
+            System.out.print(" - Nombre: "+ r.getNombre());
+            System.out.print( " - Telefono:  "+ r.getTelefono());
+                System.out.println("\n");
+            }
+        } 
+    }
     
     // Vehiculos; Registrar vehiculo
     
@@ -156,14 +178,22 @@ public class Taller {
     
     public void listarReparaciones() {
         int counter = 0;
-        for (Reparacion r : reparaciones) {
+        
+            if(reparaciones.isEmpty()){
+                System.out.println("\n No hay reparaciones para mostrar");}
+            else{
+                System.out.println("\n Listado de Reparaciones");
+            for (Reparacion r : reparaciones) {
             counter++;
             System.out.println("\n");
             System.out.print( counter);
             System.out.print("- "+ r.getVehiculo().getMatricula());
             System.out.print( " - "+ r.getDescripcion());
+            }
         } 
     }
+    
+  
     
     //Reparaciones;  contarReparaciones() que devuelva el número total de reparaciones registradas.
     
