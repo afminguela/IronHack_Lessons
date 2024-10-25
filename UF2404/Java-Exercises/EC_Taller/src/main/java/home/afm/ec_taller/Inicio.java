@@ -34,13 +34,13 @@ public class Inicio {
 
             switch (opcionPrincipal) {
                 case 1:
-                    Controlador.menuClientes(scanner, taller);
+                    menuClientes.menuClientes(scanner, taller);
                     break;
                 case 2:
-                    Controlador.menuVehiculos(scanner, taller);
+                    menuVehiculos.menuVehiculos(scanner, taller);
                     break;
                 case 3:
-                    Controlador.menuReparaciones(scanner, taller);
+                    menuReparaciones.menuReparaciones(scanner, taller);
                     break;
                 case 4:
                     System.out.println("Gracias por utilizar el sistema.");
