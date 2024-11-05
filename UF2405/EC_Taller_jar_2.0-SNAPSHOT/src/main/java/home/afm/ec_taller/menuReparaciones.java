@@ -5,6 +5,7 @@
 
 package home.afm.ec_taller;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.time.*;
 
@@ -14,7 +15,7 @@ import java.time.*;
  */
 public class menuReparaciones {
     
-     public static void menuReparaciones(Scanner scanner, Taller taller) {
+     public static void menuReparaciones(Scanner scanner, Taller taller) throws SQLException {
         while (true) {
             System.out.println("\nMenú de Reparaciones:");
             System.out.println("1. Realizar reparación");
@@ -65,7 +66,7 @@ public class menuReparaciones {
         
         try {
         Reparacion reparacion = new Reparacion(matricula, marca, modelo, descripcion, costo);
-        taller.realizarReparacion(reparacion);
+        
         System.out.println("\nReparación añadida con éxito.");
     } catch (Exception e) {
         System.err.println("\nHa ocurrido un error al intentar agregar la reparación: " + e.getMessage());
@@ -75,10 +76,10 @@ public class menuReparaciones {
 
     
     
-    private static void eliminarReparacion(Scanner scanner,Taller taller) {
+    private static void eliminarReparacion(Scanner scanner,Taller taller) throws SQLException {
         System.out.print("Ingrese número de la reparación para eliminarla: ");
         int idReparacion =  scanner.nextInt();
-        taller.bajaReparacion(idReparacion);
+        taller.borrarReparacion(idReparacion);
         System.out.println("/nReparación eliminada con éxito.");
     }
 
@@ -88,7 +89,7 @@ public class menuReparaciones {
         taller.listarReparaciones();
     }
 
-    private static void contarReparacionesTotales(Taller taller) {
+    private static void contarReparacionesTotales(Taller taller) throws SQLException {
         taller.contarReparaciones();
     }
 }

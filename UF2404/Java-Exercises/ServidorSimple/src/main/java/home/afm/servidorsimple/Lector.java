@@ -35,4 +35,4 @@ public class Lector extends Thread {
         }
     }
 }
-}
+

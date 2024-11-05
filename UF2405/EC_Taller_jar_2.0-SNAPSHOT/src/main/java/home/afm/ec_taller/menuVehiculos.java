@@ -5,6 +5,7 @@
 
 package home.afm.ec_taller;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.time.*;
 
@@ -13,7 +14,7 @@ import java.time.*;
  * @author Ana Fernandez Minguela
  */
 public class menuVehiculos {
-public static void menuVehiculos(Scanner scanner, Taller taller) {
+public static void menuVehiculos(Scanner scanner, Taller taller) throws SQLException {
         while (true) {
             System.out.println("\nMenú de Vehículos:");
             System.out.println("1. Añadir vehículo");
@@ -40,6 +41,8 @@ public static void menuVehiculos(Scanner scanner, Taller taller) {
                     asignarPropietarioVehiculo(scanner, taller);
                     break;
                 case 5:
+                    listarVehiculos(taller);
+                case 6:
                     return;
                 default:
                     System.out.println("Opción inválida. Por favor, intente nuevamente.");
@@ -62,7 +65,7 @@ private static void añadirVehiculo(Scanner scanner, Taller taller) {
     }
 
     
-    private static void mostrarVehiculo(Scanner scanner, Taller taller) {
+    private static void mostrarVehiculo(Scanner scanner, Taller taller) throws SQLException {
         System.out.print("Escribe la matrícula del vehículo para mostrar información: ");
         String matricula = scanner.nextLine().trim();
         
@@ -70,7 +73,7 @@ private static void añadirVehiculo(Scanner scanner, Taller taller) {
     }
 
     
-    private static void darBajaVehiculo(Scanner scanner,Taller taller) {
+    private static void darBajaVehiculo(Scanner scanner,Taller taller) throws SQLException {
         System.out.print("Escribe la matrícula del vehículo para dar de baja: ");
         String matricula = scanner.nextLine().trim(); 
         taller.bajaVehiculo(matricula);
@@ -78,16 +81,19 @@ private static void añadirVehiculo(Scanner scanner, Taller taller) {
     }
 
     
-    private static void asignarPropietarioVehiculo(Scanner scanner, Taller taller) {
+    private static void asignarPropietarioVehiculo(Scanner scanner, Taller taller) throws SQLException {
         System.out.print("Escribe la matrícula del vehículo: ");
         String matricula = scanner.nextLine().trim();
         System.out.print("Escribe el número del cliente propietario: ");
-        int numeroCliente = scanner.nextInt();
+        int idCliente = scanner.nextInt();
         scanner.nextLine(); 
         
-        taller.addPropietarioVehiculo(matricula, numeroCliente);
+        taller.addPropietarioVehiculo( matricula , idCliente);
         System.out.println("\nPropietario asignado con éxito.");
     }
 
-    
+   private static void listarVehiculos(Taller taller) throws SQLException{
+       
+       taller.listarVehiculos();
+   } 
 }

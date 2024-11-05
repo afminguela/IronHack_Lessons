@@ -5,6 +5,7 @@
 
 package home.afm.ec_taller;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.time.*;
 
@@ -110,13 +111,37 @@ public class Vehiculo {
 //}
     
 
-//public void mostrarInfoVehiculo(int id){
-//    
-//    VehiculoDAO.mostrarInfoVehiculoporID(int id);
-//
-//}
+    public static void insertVehiculo(Vehiculo vehiculo){
+            try {
+                VehiculoDAO.insertVehiculo(vehiculo);
+            } catch (SQLException e) {
+                System.out.println("Ha fallado el insert msg de cliente " + e.getMessage()); }
+    }
     
-    
-    
+    public static Vehiculo buscarVehiculoporMatricula(String matricula){
+            try {
+                VehiculoDAO.buscarVehiculoPorMatricula(matricula);
+            } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+            return null;
+            
+    }   
+ 
+ public static void borrarVehiculo(String matricula){
+            try {
+                VehiculoDAO.borrarVehiculo(matricula);
+            } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+      
+ 
+}
+ public static void listarVehiculos() {
+ 
+     try{
+         VehiculoDAO.listarVehiculos();
+     } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+ }
+ 
     
 }

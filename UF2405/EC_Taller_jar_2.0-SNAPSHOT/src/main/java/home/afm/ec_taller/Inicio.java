@@ -5,6 +5,7 @@
 
 package home.afm.ec_taller;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.time.*;
 
@@ -14,7 +15,7 @@ import java.time.*;
  */
 public class Inicio {
 
-    public static void iniciarFiesta(){
+    public static void iniciarFiesta() throws SQLException{
     
         Taller taller = new Taller("Talleres Manolo");
         Scanner scanner = new Scanner(System.in);

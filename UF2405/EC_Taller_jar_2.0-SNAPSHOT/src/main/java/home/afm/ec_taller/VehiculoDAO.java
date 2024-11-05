@@ -5,6 +5,7 @@
 
 package home.afm.ec_taller;
 
+import home.afm.ec_taller.ControladorBaseDatos;
 import java.util.*;
 import java.time.*;
 import java.sql.*;
@@ -15,16 +16,11 @@ import java.sql.*;
  * @author Ana Fernandez Minguela
  */
 public class VehiculoDAO {
-    private Connection conexion;
     
-    
-    public VehiculoDAO (Connection conexion) {
-        this.conexion= conexion;
-    
-    
-    }
-    
-    public void mostratInfoTodosVehiculos()throws SQLException{
+ 
+
+//____SELECT___   
+    public static void listarVehiculos()throws SQLException{
 
         String query = "SELECT * FROM Vehiculo;";
         try(Connection conn = ControladorBaseDatos.getConnection();
@@ -42,19 +38,15 @@ public class VehiculoDAO {
             }
         }catch(SQLException e){
             System.out.println("ha fallado doy error: " + e.getMessage());
-        }finally {
-               conexion.close();
+        }
         }
 
-    }
-
-
-    public void mostrarInfoVehiculoporID(int id) throws SQLException{
-        String query = "SELECT * FROM Vehiculo V INNER JOIN Cliente C ON V.propietario = C.id_Cliente INNER JOIN Persona P ON P.idpersona  WHERE id_Vehiculo = ?";
+    public void mostrarInfoVehiculoporMatricula(String matricula) throws SQLException{
+        String query = "SELECT * FROM Vehiculo V INNER JOIN Cliente C ON V.propietario = C.id_Cliente INNER JOIN Persona P ON P.idpersona  WHERE matricula = ?";
         try(Connection conn = ControladorBaseDatos.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(query)){
 
-            pstmt.setInt(1,id);
+            pstmt.setString(1,matricula);
 
             ResultSet rs = pstmt.executeQuery();
 
@@ -73,24 +65,17 @@ public class VehiculoDAO {
             }
         }catch(SQLException e){
             System.out.println("Ha fallado la consulta " + e.getMessage());
-        }finally {
-               conexion.close();
         }
     }
 
 
-
-
-   
-
-
-    public Vehiculo buscarVehiculoPorMatricula(String matricula ) throws SQLException {
+     public static Vehiculo buscarVehiculoPorMatricula(String matricula ) throws SQLException {
         String sql = "SELECT * FROM Vehiculo V INNER JOIN Cliente C ON V.propietario = C.id_Cliente INNER JOIN Persona P ON P.idpersona  WHERE matricula = ?";
         try (   Connection conn = ControladorBaseDatos.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
                 pstmt.setString(1, matricula);
             
-                try (ResultSet rs = pstmt.executeQuery()) {
+                ResultSet rs = pstmt.executeQuery();
                 if (rs.next()) {
                     
                     Vehiculo ve =new Vehiculo();
@@ -98,35 +83,36 @@ public class VehiculoDAO {
                     ve.setMarca(rs.getString("marca"));
                     ve.setModelo(rs.getString("modelo"));
                     ve.setIdVehiculo(rs.getInt("id_Vehiculo"));
+                    conn.close();
                     return ve;
                 }
-            }
+            
+               
+    
         } catch(SQLException e){
             System.out.println("Ha fallado la consulta " + e.getMessage());
-        }finally {
-               conexion.close();
         }
         return null;
     }
     
-    
-     public void insertVehiculo(int idVehiculo, String matricula, String modelo, String marca, int propietario) throws SQLException {
-        String query = "INSERT INTO vehiculos(idVehiculo, matricula, modelo, marca, propietario) VALUES (?,?,?,?,?);";
+// _____INSERT_______
+     
+     public static void insertVehiculo(Vehiculo vehiculo) throws SQLException {
+        String query = "INSERT INTO vehiculos(idVehiculo, matricula, modelo, marca, propietario) VALUES (?,?,?,?,null);";
         try(Connection conn = ControladorBaseDatos.getConnection();
             PreparedStatement pstmt = conn.prepareStatement(query)){
 
-            pstmt.setInt(1, idVehiculo);
-            pstmt.setString(2, matricula);
-            pstmt.setString(3, modelo);
-            pstmt.setString(4, marca);
-            pstmt.setInt( 5 , propietario);
+            pstmt.setInt(1, vehiculo.getIdVehiculo());
+            pstmt.setString(2, vehiculo.getMatricula());
+            pstmt.setString(3, vehiculo.getModelo());
+            pstmt.setString(4, vehiculo.getMarca());
+            
             pstmt.executeUpdate();
             System.out.println("Nuevo vehiculo insertado!");
 
         }catch(SQLException e){
             System.out.println("Ha fallado la consulta " + e.getMessage());
-        }finally {
-               conexion.close();
+        throw e;
         }
 
     
@@ -135,7 +121,24 @@ public class VehiculoDAO {
     
     
     
-    public void actualizarVehiculo(int idVehiculo, String matricula, String modelo, String marca, int propietario) throws SQLException {
+//_____DELETE_________ 
+
+     public static void borrarVehiculo(String matricula) throws SQLException {
+        String sql = "DELETE FROM Vehiculo WHERE matricula = ?";
+        try ( Connection conn = ControladorBaseDatos.getConnection();
+                PreparedStatement pstmt = conn.prepareStatement(sql)) {
+            
+            pstmt.setString(1, matricula);
+            
+            pstmt.executeUpdate(sql);
+             conn.close();  
+            }catch (SQLException e) { System.out.println("El Borrado ha fallado: " + e.getMessage());
+        }
+    }
+
+// _______UPDATE________
+     
+     public void actualizarVehiculo(int idVehiculo, String matricula, String modelo, String marca, int propietario) throws SQLException {
         String sql = "UPDATE Vehiculo SET id_Vehiculo = ?, matricula = ?, modelo = ?, marca = ?, propietario =?";
         try ( Connection conn = ControladorBaseDatos.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
@@ -148,24 +151,39 @@ public class VehiculoDAO {
             pstmt.executeUpdate(sql);
             
             }catch (SQLException e) { System.out.println("El update ha fallado: " + e.getMessage());
-        }finally {
-               conexion.close();
+        }
+        }
+
+     
+     public static void addVehiculoCliente(int idCliente, String matricula) throws SQLException {
+        String query = "UPDATE vehiculo SET propietario = ? where matricula = ?";
+        try(Connection conn = ControladorBaseDatos.getConnection();
+            PreparedStatement pstmt = conn.prepareStatement(query)){
+
+            pstmt.setInt(1, idCliente);
+            pstmt.setString(2, matricula);
+            
+            pstmt.executeUpdate();
+            System.out.println("Nuevo propietario de vehiculo insertado!");
+            conn.close();
+        }catch(SQLException e){
+            System.out.println("Ha fallado la consulta " + e.getMessage());
         }
     }
-
-     public void borrarVehiculo(String matricula) throws SQLException {
-        String sql = "DELETE FROM Vehiculo WHERE matricula = ?";
-        try ( Connection conn = ControladorBaseDatos.getConnection();
+    
+     
+     public void eliminarVehiculoDeCliente(String matricula) throws SQLException {
+        String sql = "UPDATE vehiculo SET propietario = null where matricula = ?";
+       
+        try (Connection conn = ControladorBaseDatos.getConnection();
                 PreparedStatement pstmt = conn.prepareStatement(sql)) {
             
             pstmt.setString(1, matricula);
             
-            pstmt.executeUpdate(sql);
-            
-            }catch (SQLException e) { System.out.println("El Borrado ha fallado: " + e.getMessage());
-        }finally {
-             conexion.close();  
-        }
-    }
+            pstmt.executeUpdate();
+            conn.close();
+        } catch(SQLException e){
+            System.out.println("Ha fallado Eliminar propietario del vehiculo" + e.getMessage());}
+}
 
-    }
+}

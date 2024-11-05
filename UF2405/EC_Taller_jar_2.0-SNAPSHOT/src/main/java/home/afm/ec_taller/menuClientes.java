@@ -5,8 +5,11 @@
 
 package home.afm.ec_taller;
 
+import java.sql.SQLException;
 import java.util.*;
 import java.time.*;
+import java.util.logging.Level;
+import java.util.logging.Logger;
 
 /**
  *
@@ -14,7 +17,7 @@ import java.time.*;
  */
 public class menuClientes {
 
-    public static void menuClientes(Scanner scanner, Taller taller) {
+    public static void menuClientes(Scanner scanner, Taller taller) throws SQLException {
         while (true) {
             System.out.println("\nMenú de Clientes:");
             System.out.println("1. Añadir cliente");
@@ -29,7 +32,7 @@ public class menuClientes {
 
             switch (opcionCliente) {
                 case 1:
-                    añadirCliente(scanner, taller);
+                    registrarCliente(scanner, taller);
                     break;
                 case 2:
                     mostrarCliente(scanner, taller);
@@ -50,14 +53,17 @@ public class menuClientes {
     
     // --------- Menu clientes --------
     
-    private static void añadirCliente(Scanner scanner, Taller taller) {
+    private static void registrarCliente(Scanner scanner, Taller taller) {
         System.out.print("Escribe el nombre del cliente: ");
         String nombre = scanner.nextLine().trim();
         System.out.print("Escribe el telefono del cliente: ");
         String telefono = scanner.nextLine().trim();
-        
-        taller.registrarCliente(new Cliente(nombre, telefono));
-        System.out.println("\nCliente añadido con éxito.");
+        try {
+            Cliente cliente1 = new Cliente(nombre, telefono);
+                System.out.println("\nCliente añadido con éxito.");}
+        catch (Exception e) {
+            System.out.println("Ha fallado "+ e.getMessage());  
+        }
     }
 
     private static void mostrarCliente(Scanner scanner, Taller taller) {
@@ -76,7 +82,7 @@ public class menuClientes {
        
     }
 
-    private static void listarClientesActivos(Taller taller) {
+    private static void listarClientesActivos(Taller taller) throws SQLException {
         taller.listarClientes();
     }
     

@@ -7,9 +7,6 @@ package home.afm.ec_taller;
 
 import java.sql.SQLException;
 import java.util.*;
-import java.time.*;
-import java.util.logging.Level;
-import java.util.logging.Logger;
 
 /**
  *
@@ -18,19 +15,22 @@ import java.util.logging.Logger;
 public class Cliente extends Persona {     // la clase Cliente extiende la clase abstracta persona que tiene 
         private int idCliente ;                                // los atributos idPersona generado automaticamente por un contador, nombre y telefono.
         private List<Vehiculo> Vehiculos;   // añade una lista de vehiculos
-    
+        private ClienteDAO clienteDAO;
        int counter = 0;
         
     // Constructor    
      public Cliente(String nombre, String telefono) {
         super(nombre, telefono);
+        this.idPersona = super.idPersona;
         this.idCliente = counter;
+          
         this.Vehiculos = new ArrayList<>();
         mostrarInfo(super.idPersona);
         counter++;
+        insertCliente(this);
        
-    }       
-
+    }   
+     
     public Cliente(){
     
     }
@@ -59,14 +59,17 @@ public class Cliente extends Persona {     // la clase Cliente extiende la clase
     // Muestra la info del Cliente
     @Override
     public void mostrarInfo(int idCliente) {
-        try {
-            ClienteDAO.buscarClientePorId(idCliente);
-        }
+            try {
+                ClienteDAO.buscarClientePorId(idCliente);
+                System.out.print(this.getNombre());       
+            } catch (SQLException e) {
+                System.out.println("La busqueda ha fallado " + e.getMessage());
+            }
         
     }
 
-    public void addVehiculoCliente(PersonaDAO personaDAO, Vehiculo vehiculo) {
-        Persona persona = personaDAO.obtenerPersonaPorId(getIdCliente());
+    public static void addVehiculoCliente(int idCliente, String matricula) throws SQLException {
+        VehiculoDAO.addVehiculoCliente(idCliente,matricula);
         
     }
 
@@ -76,31 +79,53 @@ public class Cliente extends Persona {     // la clase Cliente extiende la clase
     }
 
     void setIdPersona(int idPersona) {
-        this.idPersona = idPersona;
+        super.idPersona = idPersona;
     }
 
     void setNombre(String nombre) {
         super.nombre= nombre;
     }
 
-    void setTelefono(String string) {
-}
+    void setTelefono(String telefono) {
+         super.telefono = telefono;
     }
 
-    void setIdCliente(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
+    void setIdCliente(int idCliente) {
+        this.idCliente = idCliente;
     }
 
-    void setIdcliente(int aInt) {
-        throw new UnsupportedOperationException("Not supported yet."); // Generated from nbfs://nbhost/SystemFileSystem/Templates/Classes/Code/GeneratedMethodBody
-    }
-
+    
         
-    public void insertCliente(Cliente cliente)throws SQLException {
+ public static void insertCliente(Cliente cliente){
             try {
                 ClienteDAO.insertCliente(cliente);
             } catch (SQLException e) {
                 System.out.println("Ha fallado el insert msg de cliente " + e.getMessage()); }
-    }
-    
+    }   
+ 
+ public static Cliente buscarClienteporId(int idCliente){
+            try {
+                ClienteDAO.buscarClientePorId(idCliente);
+            } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+            return null;
+            
+    }   
+ 
+ public static void borrarCliente(Cliente cliente){
+            try {
+                ClienteDAO.borrarCliente(cliente);
+            } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+      
+ 
+}
+ public static void listarClientes(){
+ 
+     try{
+         ClienteDAO.listarClientes();
+     } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+ }
+ 
 }

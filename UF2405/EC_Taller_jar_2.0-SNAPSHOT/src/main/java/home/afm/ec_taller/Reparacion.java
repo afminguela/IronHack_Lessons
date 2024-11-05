@@ -5,13 +5,15 @@
 
 package home.afm.ec_taller;
 
+import java.sql.SQLException;
+import java.util.*;
 import java.util.*;
 import java.time.*;
 import home.afm.ec_taller.Vehiculo.*;
 
 /**
  *
- * @author mama
+ * @author Ana Fdez Minguela
  */
 public class Reparacion {
         private int idReparacion;
@@ -21,12 +23,12 @@ public class Reparacion {
         int counter = 0;
         
     // constructor que incluye constructor de vehiculo. 
-    public Reparacion(String matricula, String marca, String modelo, String descripcion, double costo) {
+    public Reparacion(String matricula, String marca, String modelo, String descripcion, double costo) throws SQLException {
         this.idReparacion = counter;
         this.vehiculo = new Vehiculo(matricula,marca, modelo);
         this.descripcion = descripcion;
         this.costo= costo;
-        
+        insertReparacion(this);
         counter++;
         
         
@@ -81,4 +83,37 @@ public class Reparacion {
             this.idReparacion = idReparacion;
         }
     }
+    
+    public static void insertReparacion(Reparacion reparacion)throws SQLException{
+            try {
+                ReparacionDAO.insertReparacion(reparacion);
+            } catch (SQLException e) {
+                System.out.println("Ha fallado el insert de la reparacion " + e.getMessage()); }
+    }   
+ 
+ public static Reparacion buscarReparacionporId(int idReparacion) throws SQLException{
+            try {
+                ReparacionDAO.buscarReparacionPorId(idReparacion);
+            } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+            return null;
+            
+    }   
+ 
+ public static void borrarReparacion(int idReparacion) throws SQLException {
+            try {
+                ReparacionDAO.borrarReparacion(idReparacion);
+            } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+      
+ 
+}
+ public static void listarReparaciones()  {
+ 
+     try{
+         ReparacionDAO.listarReparaciones();
+     } catch (SQLException e) {
+                System.out.println("Ha fallado borrar cliente" + e.getMessage()); }
+ }
+ 
 }

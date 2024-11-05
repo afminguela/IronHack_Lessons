@@ -10,14 +10,15 @@ package home.afm.ec_taller;
  *
  * @author mama
  */
+import java.sql.SQLException;
 import java.util.Scanner;
 
 public class EC_AppTaller {
     
 // _*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_ Inicio Programa _*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*_*      
-        public static void main(String[] args) {
+        public static void main(String[] args) throws SQLException {
     
-            Inicio.iniciarFiesta();
+           Inicio.iniciarFiesta();
         }
 }
     
