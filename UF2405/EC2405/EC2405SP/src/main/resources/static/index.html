@@ -1,0 +1,47 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Gestión de Tienda</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Gestión de Tienda</h1>
+        
+        <section id="clientes" class="glass-panel">
+            <h2>Clientes</h2>
+            <form id="cliente-form">
+                <input type="hidden" id="cliente-id">
+                <input type="text" id="cliente-nombre" placeholder="Nombre" required>
+                <input type="email" id="cliente-correo" placeholder="Correo" required>
+                <button type="submit">Guardar Cliente</button>
+            </form>
+            <ul id="cliente-list"></ul>
+        </section>
+
+        <section id="productos" class="glass-panel">
+            <h2>Productos</h2>
+            <form id="producto-form">
+                <input type="hidden" id="producto-id">
+                <input type="text" id="producto-nombre" placeholder="Nombre" required>
+                <input type="number" id="producto-precio" placeholder="Precio" step="0.01" required>
+                <button type="submit">Guardar Producto</button>
+            </form>
+            <ul id="producto-list"></ul>
+        </section>
+
+        <section id="carrito" class="glass-panel">
+            <h2>Carrito de Compra</h2>
+            <form id="cpc-form">
+                <select id="cpc-cliente" required></select>
+                <select id="cpc-producto" required></select>
+                <button type="submit">Agregar al Carrito</button>
+            </form>
+            <ul id="cpc-list"></ul>
+        </section>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>

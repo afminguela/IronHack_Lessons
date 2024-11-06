@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Talleres Manolo</title>
+    <link rel="stylesheet" href="css/styles.css">
+</head>
+<body>
+    <div class="container">
+        <h1>Talleres Manolo</h1>
+        <form id="pedidoForm">
+            <label for="producto">Producto</label>
+            <input type="text" id="producto" name="producto" required>
+            
+            <label for="cantidad">Cantidad</label>
+            <input type="number" id="cantidad" name="cantidad" required>
+            
+            <button type="submit">Crear Pedido</button>
+        </form>
+        
+        <h2>Lista de Pedidos</h2>
+        <ul id="pedidosList"></ul>
+    </div>
+    <script src="js/script.js"></script>
+</body>
+</html>
