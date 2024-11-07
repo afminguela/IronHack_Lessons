@@ -23,14 +23,14 @@ public class ClienteController {
     private ClienteRepository clienteRepository;  // esta clase nos da metodos predefinidos por spring bindByid, bindbyId...
     
     
-    @GetMapping("/listaALl")
+    @GetMapping("/listaAll")
     public List<Cliente> listarClientes() {
         // Llama al método findAll() del repositorio para obtener todos los pedidos
         return clienteRepository.findAll();
     }
     
     @GetMapping("/buscar/{id}")
-    public Optional<Cliente> buscarCLientePorID(@PathVariable Long idP){
+    public Optional<Cliente> buscarClientePorID(@PathVariable Long idP){
             return clienteRepository.findById(idP);
                     }
 
@@ -41,13 +41,10 @@ public class ClienteController {
     
     
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Void> deleteCliente(@PathVariable Long id) {
-        if (clienteRepository.existsById(id)) { // si existe por el ID, borralo por el id.
+    public void deleteCliente(@PathVariable Long id) {
+       
             clienteRepository.deleteById(id);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+            
     }
     
     

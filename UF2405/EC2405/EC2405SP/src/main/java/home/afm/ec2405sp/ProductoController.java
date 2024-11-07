@@ -23,7 +23,7 @@ public class ProductoController {
     private ProductoRepository productoRepository;  // esta clase nos da metodos predefinidos por spring bindByid, bindbyId...
     
     
-    @GetMapping("/listarProductos}")
+    @GetMapping("/listarProductos")
     public  List<Producto> listarProductos() {
         // Llama al método findAll() del repositorio para obtener todos los pedidos
         return productoRepository.findAll();
@@ -40,13 +40,10 @@ public class ProductoController {
     
     
     @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Void> deleteProducto(@PathVariable Long idP) {
-        if (productoRepository.existsById(idP)) { // si existe por el ID, borralo por el id.
+    public void deleteProducto(@PathVariable Long idP) {
+       
             productoRepository.deleteById(idP);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
+            
     }
     
     

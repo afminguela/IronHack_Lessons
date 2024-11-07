@@ -37,16 +37,17 @@ public class CPCController {
     }
     
     
-    @DeleteMapping("/eliminar/{id}")
-    public ResponseEntity<Void> deleteCPC(@PathVariable Long idC) {
-        if (cpcRepository.existsByIdC(idC)) { 
-            cpcRepository.deleteByIdC(idC);
-            return ResponseEntity.noContent().build();
-        } else {
-            return ResponseEntity.notFound().build();
-        }
-    }
+    @DeleteMapping("/eliminar/{idC}/{idP}")
+public void deleteCPC(@PathVariable Long idC, @PathVariable Long idP) {
     
+    CPCid id = new CPCid();
+    
+    id.setIdC(idC);
+    id.setIdP(idP);
+       
+    cpcRepository.deleteById(id);
+        
+}
     
     
     

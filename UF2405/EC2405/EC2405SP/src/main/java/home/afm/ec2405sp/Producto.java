@@ -25,7 +25,7 @@ public class Producto {
         private Long idP;
         private String nombre;
         private double precio;
-        long counter = 0;
+        
     
     // Constructores
 
@@ -38,7 +38,7 @@ public class Producto {
      
     
     public Producto(String nombre, double precio) throws SQLException {
-        this.idP = counter;
+        
         this.nombre = nombre;
         this.precio = precio;
       

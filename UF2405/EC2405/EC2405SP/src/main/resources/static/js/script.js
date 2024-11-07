@@ -22,17 +22,21 @@ async function fetchAPI(url, method = 'GET', body = null) {
 
 // Funciones CRUD para Clientes
 async function getClientes() {
-    const clientes = await fetchAPI(CLIENTES_URL);
-    const list = getEl('cliente-list');
-    list.innerHTML = '';
-    clientes.forEach(cliente => {
-        const li = createEl('li');
-        li.textContent = `${cliente.nombre} (${cliente.correo})`;
-        li.innerHTML += ` <button onclick="editCliente(${cliente.id})">Editar</button>`;
-        li.innerHTML += ` <button onclick="deleteCliente(${cliente.id})">Eliminar</button>`;
-        list.appendChild(li);
-    });
-    updateClienteSelect();
+    try {
+        const clientes = await fetchAPI(`${CLIENTES_URL}/listaAll`);
+        const list = getEl('cliente-list');
+        list.innerHTML = '';
+        clientes.forEach(cliente => {
+            const li = createEl('li');
+            li.textContent = `${cliente.nombre} (${cliente.correo})`;
+            li.innerHTML += ` <button onclick="editCliente(${cliente.id})">Editar</button>`;
+            li.innerHTML += ` <button onclick="deleteCliente(${cliente.id})">Eliminar</button>`;
+            list.appendChild(li);
+        });
+        updateClienteSelect();
+    } catch (error) {
+        console.error('Error al obtener clientes:', error);
+    }
 }
 
 async function saveCliente(event) {
@@ -42,43 +46,59 @@ async function saveCliente(event) {
         nombre: getEl('cliente-nombre').value,
         correo: getEl('cliente-correo').value
     };
-    if (id) {
-        await fetchAPI(`${CLIENTES_URL}/${id}`, 'PUT', cliente);
-    } else {
-        await fetchAPI(CLIENTES_URL, 'POST', cliente);
+    try {
+        if (id) {
+            await fetchAPI(`${CLIENTES_URL}/${id}`, 'PUT', cliente);
+        } else {
+            await fetchAPI(CLIENTES_URL, 'POST', cliente);
+        }
+        getEl('cliente-form').reset();
+        getEl('cliente-id').value = '';
+        getClientes();
+    } catch (error) {
+        console.error('Error al guardar cliente:', error);
     }
-    getEl('cliente-form').reset();
-    getEl('cliente-id').value = '';
-    getClientes();
 }
 
 async function editCliente(id) {
-    const cliente = await fetchAPI(`${CLIENTES_URL}/${id}`);
-    getEl('cliente-id').value = cliente.id;
-    getEl('cliente-nombre').value = cliente.nombre;
-    getEl('cliente-correo').value = cliente.correo;
+    try {
+        const cliente = await fetchAPI(`${CLIENTES_URL}/buscar/${id}`);
+        getEl('cliente-id').value = cliente.id;
+        getEl('cliente-nombre').value = cliente.nombre;
+        getEl('cliente-correo').value = cliente.correo;
+    } catch (error) {
+        console.error('Error al editar cliente:', error);
+    }
 }
 
 async function deleteCliente(id) {
     if (confirm('¿Estás seguro de eliminar este cliente?')) {
-        await fetchAPI(`${CLIENTES_URL}/${id}`, 'DELETE');
-        getClientes();
+        try {
+            await fetchAPI(`http://localhost:8080/api/cliente/eliminar/${id}`, 'DELETE');
+            getClientes();
+        } catch (error) {
+            console.error('Error al eliminar cliente:', error);
+        }
     }
 }
 
 // Funciones CRUD para Productos
 async function getProductos() {
-    const productos = await fetchAPI(PRODUCTOS_URL);
-    const list = getEl('producto-list');
-    list.innerHTML = '';
-    productos.forEach(producto => {
-        const li = createEl('li');
-        li.textContent = `${producto.nombre} ($${producto.precio})`;
-        li.innerHTML += ` <button onclick="editProducto(${producto.id})">Editar</button>`;
-        li.innerHTML += ` <button onclick="deleteProducto(${producto.id})">Eliminar</button>`;
-        list.appendChild(li);
-    });
-    updateProductoSelect();
+    try {
+        const productos = await fetchAPI(`${PRODUCTOS_URL}/listarProductos`);
+        const list = getEl('producto-list');
+        list.innerHTML = '';
+        productos.forEach(producto => {
+            const li = createEl('li');
+            li.textContent = `${producto.nombre} (${producto.precio}€)`;
+            li.innerHTML += ` <button onclick="editProducto(${producto.idP})">Editar</button>`;
+            li.innerHTML += ` <button onclick="deleteProducto(${producto.idP})">Eliminar</button>`;
+            list.appendChild(li);
+        });
+        updateProductoSelect();
+    } catch (error) {
+        console.error('Error al obtener productos:', error);
+    }
 }
 
 async function saveProducto(event) {
@@ -88,84 +108,139 @@ async function saveProducto(event) {
         nombre: getEl('producto-nombre').value,
         precio: parseFloat(getEl('producto-precio').value)
     };
-    if (id) {
-        await fetchAPI(`${PRODUCTOS_URL}/${id}`, 'PUT', producto);
-    } else {
-        await fetchAPI(PRODUCTOS_URL, 'POST', producto);
+    try {
+        if (id) {
+            await fetchAPI(`${PRODUCTOS_URL}/${id}`, 'PUT', producto);
+        } else {
+            await fetchAPI(PRODUCTOS_URL, 'POST', producto);
+        }
+        getEl('producto-form').reset();
+        getEl('producto-id').value = '';
+        getProductos();
+    } catch (error) {
+        console.error('Error al guardar producto:', error);
     }
-    getEl('producto-form').reset();
-    getEl('producto-id').value = '';
-    getProductos();
 }
 
 async function editProducto(id) {
-    const producto = await fetchAPI(`${PRODUCTOS_URL}/${id}`);
-    getEl('producto-id').value = producto.id;
-    getEl('producto-nombre').value = producto.nombre;
-    getEl('producto-precio').value = producto.precio;
+    try {
+        const producto = await fetchAPI(`http://localhost:8080/api/productos/buscar/${id}`);
+        getEl('producto-id').value = producto.id;
+        getEl('producto-nombre').value = producto.nombre;
+        getEl('producto-precio').value = producto.precio;
+    } catch (error) {
+        console.error('Error al editar producto:', error);
+    }
 }
 
 async function deleteProducto(id) {
     if (confirm('¿Estás seguro de eliminar este producto?')) {
-        await fetchAPI(`${PRODUCTOS_URL}/${id}`, 'DELETE');
-        getProductos();
+        try {
+            await fetchAPI(`http://localhost:8080/api/productos/eliminar/${id}`, 'DELETE');
+            getProductos();
+        } catch (error) {
+            console.error('Error al eliminar producto:', error);
+        }
     }
 }
 
 // Funciones para CPC (Carrito de Compra)
 async function getCPC() {
-    const compras = await fetchAPI(CPC_URL);
-    const list = getEl('cpc-list');
-    list.innerHTML = '';
-    compras.forEach(compra => {
-        const li = createEl('li');
-        li.textContent = `${compra.cliente.nombre} compró ${compra.producto.nombre}`;
-        li.innerHTML += ` <button onclick="deleteCPC(${compra.cliente.id}, ${compra.producto.id})">Eliminar</button>`;
-        list.appendChild(li);
-    });
+    try {
+        const compras = await fetchAPI(CPC_URL);
+                const list = getEl('cpc-list');
+        list.innerHTML = '';
+        for (const cpc of compras) {
+                       
+            const li = createEl('li');
+            li.textContent = `Cliente ID: ${cpc.idC}compró Producto ID:${cpc.idP} `;
+            li.innerHTML += ` <button onclick="deleteCPC(${cpc.idC}, ${cpc.idP})">Eliminar</button>`;
+            list.appendChild(li);
+        }
+    } catch (error) {
+        console.error('Error al obtener compras:', error);
+    }
 }
 
 async function saveCPC(event) {
     event.preventDefault();
-    const compra = {
-        idCliente: getEl('cpc-cliente').value,
-        idProducto: getEl('cpc-producto').value
+    const idC = getEl('cpc-cliente').value;
+    const idP = getEl('cpc-producto').value;
+    
+    // Verificar que los valores no sean undefined o vacíos
+    if (!idC || !idP) {
+        alert('Por favor, seleccione un cliente y un producto.');
+        return;
+    }
+    
+    const cpc = {
+        idC: parseInt(idC, 10),  // Convertir a número
+        idP: parseInt(idP, 10)   // Convertir a número
     };
-    await fetchAPI(CPC_URL, 'POST', compra);
-    getEl('cpc-form').reset();
-    getCPC();
+    
+    try {
+        await fetchAPI(CPC_URL, 'POST', cpc);
+        getEl('cpc-form').reset();
+        getCPC();
+    } catch (error) {
+        console.error('Error al guardar compra:', error, );
+        alert('Error al guardar la compra. Por favor, inténtelo de nuevo.');
+    }
 }
 
-async function deleteCPC(idCliente, idProducto) {
+async function deleteCPC(idC, idP) {
     if (confirm('¿Estás seguro de eliminar esta compra?')) {
-        await fetchAPI(`${CPC_URL}/${idCliente}/${idProducto}`, 'DELETE');
-        getCPC();
+        try {
+            // Asegúrate de que idC e idP sean números
+            idC = parseInt(idC, 10);
+            idP = parseInt(idP, 10);
+            
+            if (isNaN(idC) || isNaN(idP)) {
+                throw new Error('IDs inválidos');
+            }
+            
+            await fetchAPI(`${CPC_URL}/eliminar/${idC}/${idP}`, 'DELETE');
+            
+           
+        } catch (error) {
+            console.error('Error al eliminar compra:', error);
+            alert('Error al eliminar la compra. Por favor, inténtelo de nuevo.');
+        }
+         getCPC();
     }
 }
 
 // Funciones para actualizar los selects
 async function updateClienteSelect() {
-    const clientes = await fetchAPI(CLIENTES_URL);
-    const select = getEl('cpc-cliente');
-    select.innerHTML = '<option value="">Seleccione un cliente</option>';
-    clientes.forEach(cliente => {
-        const option = createEl('option');
-        option.value = cliente.id;
-        option.textContent = cliente.nombre;
-        select.appendChild(option);
-    });
+    try {
+        const clientes = await fetchAPI(`${CLIENTES_URL}/listaAll`);
+        const select = getEl('cpc-cliente');
+        select.innerHTML = '<option value="">Seleccione un cliente</option>';
+        clientes.forEach(cliente => {
+            const option = createEl('option');
+            option.value = cliente.idC;
+            option.textContent = `${cliente.idC} - ${cliente.nombre}`;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al actualizar select de clientes:', error);
+    }
 }
 
 async function updateProductoSelect() {
-    const productos = await fetchAPI(PRODUCTOS_URL);
-    const select = getEl('cpc-producto');
-    select.innerHTML = '<option value="">Seleccione un producto</option>';
-    productos.forEach(producto => {
-        const option = createEl('option');
-        option.value = producto.id;
-        option.textContent = producto.nombre;
-        select.appendChild(option);
-    });
+    try {
+        const productos = await fetchAPI(`${PRODUCTOS_URL}/listarProductos`);
+        const select = getEl('cpc-producto');
+        select.innerHTML = '<option value="">Seleccione un producto</option>';
+        productos.forEach(producto => {
+            const option = createEl('option');
+            option.value = producto.idP;
+            option.textContent = `${producto.idP} - ${producto.nombre}`;
+            select.appendChild(option);
+        });
+    } catch (error) {
+        console.error('Error al actualizar select de productos:', error);
+    }
 }
 
 // Event Listeners

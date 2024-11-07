@@ -22,6 +22,12 @@ public interface CPCRepository extends JpaRepository<CPC, CPCid>  {
 
     
     public void deleteByIdC(Long idC);
+
+    public boolean existsByIdP(Long idP);
+
+    public boolean existsByIdCAndIdP(Long idC, Long idP);
+
+    public void deleteByIdCAndIdP(Long idC, Long idP);
     
     
    
